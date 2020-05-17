@@ -17,7 +17,11 @@ git clone을 하고, remote도 추가해주세요.
 ```
 git clone https://github.com/skysign/KoreaAddressAPI.git
 cd KoreaAddressAPI
-git remote add origin https://github.com/skysign/KoreaAddressAPI.git
+git remote add upstream https://github.com/skysign/KoreaAddressAPI.git # fork 전의 repo 이름을 upstream으로 지정
+```
+## remote 저장소 확인
+```
+$ git remote -v
 ```
 
 ## 코드를 수정한 뒤
@@ -33,6 +37,7 @@ git commit
 ### 내 컴퓨터에 있는 repo 에서 github.com에 있는 리포로 보내기
 ```
 git push origin master
+git push upstream master
 ```
 
 ### fork한 repo에서 https://github.com/skysign/KoreaAddressAPI.git 로 보내기
