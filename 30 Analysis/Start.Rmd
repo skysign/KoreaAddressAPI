@@ -1,0 +1,12 @@
+---
+title: "Start"
+author: "Jayoung"
+date: '2020 5 16 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+2020년 5월 16일 시작합니다!
