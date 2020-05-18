@@ -19,16 +19,25 @@ git clone https://github.com/skysign/KoreaAddressAPI.git
 cd KoreaAddressAPI
 git remote add upstream https://github.com/skysign/KoreaAddressAPI.git # fork 전의 repo 이름을 upstream으로 지정
 ```
-## remote 저장소 확인
+## remote 저장소 확인 및 upstream 추가
 ```
 $ git remote -v
+origin	https://github.com/seongilp/KoreaAddressAPI.git (fetch)
+origin	https://github.com/seongilp/KoreaAddressAPI.git (push)
+upstream	https://github.com/skysign/KoreaAddressAPI.git (fetch)
+upstream	https://github.com/skysign/KoreaAddressAPI.git (push)
+```
+
+## upstream으로 부터 내려받기 (fork 원본 저장소로부터 소스 내려받기)
+```
+$ git fetch upstream
 ```
 
 ## 코드를 수정한 뒤
 ### commit 부터 우선
 ```
 git add filename_to_commit
-git commit
+git commit -a -m "커밋 메시지"
 // 커밋 메세지를 잘 작성해주세요.
 // 이렇게 커밋 메세지를 작성하면, 영원히 고통받습니다. ㅎㅎ
 // https://github.com/skysign/KoreaAddressAPI/commit/91eb26573cb0c5ff8e873d927dd5829d2c100ecd
@@ -37,7 +46,6 @@ git commit
 ### 내 컴퓨터에 있는 repo 에서 github.com에 있는 리포로 보내기
 ```
 git push origin master
-git push upstream master
 ```
 
 ### fork한 repo에서 https://github.com/skysign/KoreaAddressAPI.git 로 보내기
