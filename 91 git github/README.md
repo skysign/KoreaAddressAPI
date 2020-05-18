@@ -4,8 +4,7 @@
 
 # 사전준비
 * git을 설치해주세요. https://git-scm.com/
-* githube.com에 가입해주세요.
-*
+* github.com에 가입해주세요.
 
 # 처음 한번만 실행하는 커맨드
 ## github.com에서 할일
@@ -15,7 +14,7 @@
 ## 내 컴퓨터에서 실행하는 커맨드
 git clone을 하고, remote도 추가해주세요.
 ```
-git clone https://github.com/skysign/KoreaAddressAPI.git
+git clone https://github.com/skysign/KoreaAddressAPI.git # fork 한 자신의 git repo를 clone 해야 합니다!
 cd KoreaAddressAPI
 git remote add upstream https://github.com/skysign/KoreaAddressAPI.git # fork 전의 repo 이름을 upstream으로 지정
 ```
@@ -31,12 +30,18 @@ upstream	https://github.com/skysign/KoreaAddressAPI.git (push)
 ## upstream으로 부터 내려받기 (fork 원본 저장소로부터 소스 내려받기)
 ```
 $ git fetch upstream
+$ git checkout master
+> Switched to branch 'master'
+$ git merge upstream/master
 ```
+* pull과 fetch의 차이
+pull은 소스를 내려와 현재 작업중인 branch에 merge 해주는 것이고, fetch는 내려받고 merge는 하지 않습니다.
+
 
 ## 코드를 수정한 뒤
 ### commit 부터 우선
 ```
-git add filename_to_commit
+git add FILENAME_TO_COMMIT
 git commit -a -m "커밋 메시지"
 // 커밋 메세지를 잘 작성해주세요.
 // 이렇게 커밋 메세지를 작성하면, 영원히 고통받습니다. ㅎㅎ
