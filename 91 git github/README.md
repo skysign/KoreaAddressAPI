@@ -16,18 +16,19 @@ git clone을 하고, remote도 추가해주세요.
 ```
 git clone https://github.com/skysign/KoreaAddressAPI.git # fork 한 자신의 git repo를 clone 해야 합니다!
 cd KoreaAddressAPI
-git remote add upstream https://github.com/skysign/KoreaAddressAPI.git # fork 전의 repo 이름을 upstream으로 지정
+git remote add upstream https://github.com/skysign/KoreaAddressAPI.git # 병건님의 repo를  upstream으로 지정
 ```
 ## remote 저장소 확인 및 upstream 추가
 ```
 $ git remote -v
-origin	https://github.com/seongilp/KoreaAddressAPI.git (fetch)
+origin	https://github.com/seongilp/KoreaAddressAPI.git (fetch) -> 자신의 repo 주소가 나와야 합니다
 origin	https://github.com/seongilp/KoreaAddressAPI.git (push)
-upstream	https://github.com/skysign/KoreaAddressAPI.git (fetch)
+upstream	https://github.com/skysign/KoreaAddressAPI.git (fetch) -> 병건님의 repo 주소가 나와야 합니다
 upstream	https://github.com/skysign/KoreaAddressAPI.git (push)
 ```
 
 ## upstream으로 부터 내려받기 (fork 원본 저장소로부터 소스 내려받기)
+다른 분들이 변경한 소스가 upstream에 반영되면 내려받기 위한 작업이 필요합니다.
 ```
 $ git fetch upstream
 $ git checkout master
@@ -36,7 +37,7 @@ $ git merge upstream/master
 ```
 * pull과 fetch의 차이
 pull은 소스를 내려와 현재 작업중인 branch에 merge 해주는 것이고, fetch는 내려받고 merge는 하지 않습니다.
-
+git pull은 git fetch + git merge를 동시에 수행하는 것입니다.
 
 ## 코드를 수정한 뒤
 ### commit 부터 우선
