@@ -31,9 +31,7 @@ upstream	https://github.com/skysign/KoreaAddressAPI.git (push)
 다른 분들이 변경한 소스가 upstream에 반영되면 내려받기 위한 작업이 필요합니다.
 ```
 $ git fetch upstream
-$ git checkout master
-> Switched to branch 'master'
-$ git merge upstream/master
+$ git push
 ```
 * pull과 fetch의 차이
 pull은 소스를 내려와 현재 작업중인 branch에 merge 해주는 것이고, fetch는 내려받고 merge는 하지 않습니다.
@@ -51,7 +49,7 @@ git commit -a -m "커밋 메시지"
 
 ### 내 컴퓨터에 있는 repo 에서 github.com에 있는 리포로 보내기
 ```
-git push origin master
+git push origin master # origin은 repo, master는 branch 입니다.
 ```
 
 ### fork한 repo에서 https://github.com/skysign/KoreaAddressAPI.git 로 보내기
