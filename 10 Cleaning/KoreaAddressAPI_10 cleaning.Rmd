@@ -1,26 +1,18 @@
 
-```{r}
-getwd()
-
-```
-
-```{r}
-setwd("C:/git/DA_KoreaAddressAPI_2020")
-
-```
-
-```{r}
-getwd()
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
 
-df <- read.table("C:/git/DA_KoreaAddressAPI_2020/juso.go.kr/202004_주소DB_전체분/Seoul/지번_서울특별시_UTF-8_0_32000.txt", 
-                 encoding="UTF-8")
-
+df <- read.csv("../juso.go.kr/202004_주소DB_전체분/Seoul/지번_서울특별시.txt", 
+                 header = FALSE,
+                 sep="|",
+                 fileEncoding="UTF-8",
+                 encoding="CP949")
 
 ```
+
 
 ```{r}
 
@@ -29,41 +21,9 @@ View(df)
 ```
 
 
-```{r}
-
-df <- read.table("C:/git/DA_KoreaAddressAPI_2020/juso.go.kr/202004_주소DB_전체분/Seoul/지번_서울특별시_UTF-8_0_32000.txt", 
-                 encoding="UTF-8",
-                 File
-                 sep = "|")
-              
-```
-
-```{r}
-
-View(df)
-
-```
 
 
-```{r}
 
-df <- read.table("C:/git/DA_KoreaAddressAPI_2020/juso.go.kr/202004_주소DB_전체분/Seoul/지번_서울특별시_UTF-8_0_32000.txt",
-                 sep = "|",
-                 encoding="UTF-8",
-                 fileEncoding = "euc-kr")
-
-```
-
-```{r}
-head(df)
-
-```
-
-
-```{r}
-View(df)
-
-```
 
 
 
