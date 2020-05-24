@@ -4,13 +4,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+df <- read.csv("../juso.go.kr/202004_주소DB_전체분/지번_서울특별시.txt",
+               header = FALSE,
+               sep = "|",
+               stringsAsFactors = FALSE)
 
-df <- read.csv("../juso.go.kr/202004_주소DB_전체분/Seoul/지번_서울특별시.txt", 
-                 header = FALSE,
-                 sep="|",
-                 fileEncoding="UTF-8",
-                 encoding="CP949")
-
+head(df)
 ```
 
 
