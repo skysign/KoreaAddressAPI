@@ -31,7 +31,7 @@ upstream	https://github.com/skysign/KoreaAddressAPI.git (push)
 다른 분들이 변경한 소스가 upstream에 반영되면 내려받기 위한 작업이 필요합니다.
 ```
 $ git fetch upstream
-$ git push
+$ git merge upstream/master
 ```
 * pull과 fetch의 차이
 pull은 소스를 내려와 현재 작업중인 branch에 merge 해주는 것이고, fetch는 내려받고 merge는 하지 않습니다.
