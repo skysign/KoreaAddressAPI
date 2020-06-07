@@ -3,12 +3,23 @@ title: "20 Assess"
 output: html_document
 ---
 
+```{r}
+# install.packages('devtools')
+#install.packages("remotes")
+#remotes::install_github("hadley/devtools") # for macOS
+#install.packages("devtools")
+```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+#install_github("plgrmr/readAny", force = TRUE)
+options(encoding = 'UTF-8')
 ```
 
 ```{r libraries, include=FALSE}
 library(dplyr)
+library('devtools')
+library(stringr)                       # 필요한 패키지를 로드합니다.
 ```
 
 # 주소 데이터 불러오기
@@ -21,16 +32,21 @@ pathPostFix = '_서울특별시_UTF-8_0_32000.txt'
 pathJibun = paste0(pathPrefix, '지번', pathPostFix)
 pathJibun
 
-df = read.csv(pathJibun, header = FALSE, sep = '|', fileEncoding = 'UTF-8')
+#df = read.csv(pathJibun, header = FALSE, sep = '|', fileEncoding = 'UTF-8')
+df= read.table("../juso.go.kr/202004_주소DB_전체분/Seoul/지번_서울특별시_UTF-8_0_32000.txt",
+                sep="|",
+               #stringsAsFactors = FALSE,
+                fileEncoding = "utf-8",
+               colClasses = "character",
+                header = FALSE)
+
+#df = read.table("../juso.txt",fileEncoding="utf-8",sep=",")
 head(df)
 ```
-
-# 모든 컬럼의 타입을 chraracter로 변경하기
-
-주소에 사용된느 데이터 타입은 
-
+### 모든 컬럼의 타입을 chraracter로 변경하기
 ```{r }
-df$V4 = as.character(df$V4) #시
+df$V3 = as.character(df$V3) # 법정동코드 10자리 , 앞 두자리는 시도, 3~5자리는 구
+df$V4 = as.character(df$V4) #시, 도
 df$V5 = as.character(df$V5) #구
 df$V6 = as.character(df$V6) #동
 
@@ -38,31 +54,53 @@ df$V9 = as.character(df$V9) #지번본번
 df$V10 = as.character(df$V10) #지번부번
 
 head(df)
-``
+```
 
-## 시
+## 코드,시,군,동만 분리하여 데이터 프레임 생성
 
+```{r}
+df_all2 <- data.frame(df$V3,df$V4,df$V5,df$V6)
+df_all2
+```
+
+```{r}
+df_all2 <- df_all2 %>%
+  rename ("code"="df.V3")
+df_all2 <- df_all2 %>%
+  rename ("sido"="df.V4")
+df_all2 <- df_all2 %>%
+  rename ("gu"="df.V5")
+df_all2 <- df_all2 %>%
+  rename ("dong"="df.V6")
+```
+
+```{r}
+df_all2[,"sido_code"] = substr(df_all2$code,1,2) # 법정동 코드에서 시 분리
+df_all2[,"gu_code"] = substr(df_all2$code,3,5) # 법정동 코드에서 구 분리
+df_all2
+```
+
+
+### 시
 ```{r}
 sido = unique(df$V4)
 sido
-sido[1]
+sido[1] # 서울특별시 
 
 df %>%
-  filter(V4 == sido[1]) -> df_sido1
+  filter(V4 == sido[1]) -> df_sido
 
-head(df_sido1)
+head(df_sido)
 ```
 
-## 구
 
+### 구
 ```{r}
 gu = unique(df_sido1$V5)
   
 gu
 ```
-
-## 동
-
+### 동
 ```{r}
 df %>%
   filter(V4 == sido[1]) %>% 
@@ -71,9 +109,12 @@ df %>%
 dongs = unique(df_dong$V6)
 
 dongs
+
+df_dong <- data.frame(dongs)
+df_dong
 ```
 
-## 번지
+### 번지
 
 ```{r}
 
@@ -88,3 +129,4 @@ BunJi = unique(df_bunji$BunJi)
 BunJi
 
 ```
+
