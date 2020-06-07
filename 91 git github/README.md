@@ -42,7 +42,7 @@ git pull은 git fetch + git merge를 동시에 수행하는 것입니다.
 ### commit 부터 우선
 ```
 git add FILENAME_TO_COMMIT
-git commit -a -m "커밋 메시지"
+git commit -m "커밋 메시지"
 // 커밋 메세지를 잘 작성해주세요.
 // 이렇게 커밋 메세지를 작성하면, 영원히 고통받습니다. ㅎㅎ
 // https://github.com/skysign/KoreaAddressAPI/commit/91eb26573cb0c5ff8e873d927dd5829d2c100ecd
