@@ -65,11 +65,19 @@ https://book.naver.com/bookdb/book_detail.nhn?bid=12256508
 * '그런 데이터가 뭐가 있을까?'
 * 고민을 거듭한 끝에, '주소데이터가 우리에게 적합하겠구나!'
 
+# FAQ
+
 ## 한국주소 rest API가 있지 않을까?
 한국주소 rest API가 없다는걸 최근에 알게 되었어요.
 * 다음에서 제공하는 주소API는 매우 좋지만, rest API가 없어요. 자세한 내용은 [여기 참고](https://github.com/daumPostcode/QnA#4-rest-api%EB%A1%9C%EB%8F%84-%EC%A0%9C%EA%B3%B5%ED%95%98%EA%B3%A0-%EC%9E%88%EB%82%98%EC%9A%94)하세요
 * Toast 에서도 한국주소 API는 판매가 중지 되었습니다. 자세한 내용은 [여기 참고](https://www.toast.com/kr/support/notice/detail/1331)하세요
 * juso.go.kr에서 제공하는 rest API가 있기는 했지만, 사용자가 입력한 에러가 있는 주소를 잘 처리해주지 못했습니다.
+
+## juso.go.kr에서 제공하는 데이터의 저작권에 따라 사용에 제한이 있지 않을까요?
+
+**공공데이터법에 근거하여 공공데이터는 누구나 이용가능하고, 영리 목적의 이용을 포함한 자유로운 활용이 보장되므로 목적에 맞게 활용하시기 바랍니다.**
+- 이렇게 답변 되어 있습니다. ^^
+- 출처 : https://www.juso.go.kr/addrlink/DevCenterQABoardDetail.do?mgtSn=36836&currentPage=1&searchType=subject&keyword=%EC%A0%80%EC%9E%91
 
 **결론! 없으면 만든다. :-)**
 
