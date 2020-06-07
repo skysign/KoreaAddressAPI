@@ -14,6 +14,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 #install_github("plgrmr/readAny", force = TRUE)
 options(encoding = 'UTF-8')
+source(file.path(getwd(), "01 common", "init.R"))
 ```
 
 ```{r libraries, include=FALSE}
