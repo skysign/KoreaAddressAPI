@@ -39,16 +39,7 @@ ParentChild_parent <- function(str, parent, child) {
   return(match)
 }
 
-SiGu_Si <- function(str, parent, child) {
-  return(ParentChild_parent(str, parent, child))
-}
-
-GuDong_gu <- function(str, parent, child) {
-  return(ParentChild_parent(str, parent, child))
-}
-    
-  
-SiGu_Gu <- function(str, parent, child) {
+ParentChild_Child <- function(str, parent, child) {
   pattern = paste0("(?<=", parent, "[\\s\\|\\t]?)", child)
   print(pattern)
   # match = grep(pattern, str, perl = TRUE)
@@ -58,6 +49,14 @@ SiGu_Gu <- function(str, parent, child) {
     return("")
   
   return(match)
+}
+
+SiGu_Si <- function(str, parent, child) {
+  return(ParentChild_parent(str, parent, child))
+}
+
+SiGu_Gu <- function(str, parent, child) {
+  return(ParentChild_Child(str, parent, child))
 }
 
 SiGu <- function(str, parent, child) {
@@ -75,67 +74,37 @@ SiGu <- function(str, parent, child) {
   return(FALSE)
 }
 
-SiGu_Dong <- function(str, parent, child) {
-  pattern = paste0("(?<=", parent, "[\\s\\|\\t]?)", child)
-  print(pattern)
-  # match = grep(pattern, str, perl = TRUE)
-  match = str_match(str, pattern)
-  
-  if (is.na(match) > 0)
-    return("")
-  
-  return(match)
+GuDong_Gu <- function(str, parent, child) {
+  return(ParentChild_parent(str, parent, child))
+}
+
+GuDong_Dong <- function(str, parent, child) {
+  return(ParentChild_Child(str, parent, child))
 }
 
 GuDong <- function(str, parent, child) {
   print(str)
   print(parent)
   print(child)
-  match = SiGu_Gu(str, parent, child)
+  match = GuDong_gu(str, parent, child)
   print(match)
-  # if (parent == match) {
-  #   match = SiGu_Dong(str, parent, child)
-  #   print(match)
-  #   if (child == match) {
-  #     return(TRUE)
-  #   }
-  # }
+  if (parent == match) {
+    match = GuDong_Dong(str, parent, child)
+    print(match)
+    if (child == match) {
+      return(TRUE)
+    }
+  }
   
   return(FALSE)
 }
 
-match = GuDong(str1,"동작구","사당동")
-match
-
-
-# match = SiGu(str1, "서울시", "동작구")
-# match
-# 
-# match = GuDong(str1,"동작구","사당동")
-# match
-# 
-
-
-# 
-# match = SiGu_Dong(str1,"동작구","사당동")
-# match
-
-# # match = grep(pattern, str1, perl = TRUE)
-# # 
-# # match
-# # 
-# # match = grep(pattern, str2, perl = TRUE)
-# # 
-# # match
-# # 
-# # match = grep(pattern, str3, perl = TRUE)
-# # 
-# # match
-# 
 
 SiGu_Si(str1,"서울시","동작구")
 SiGu_Gu(str1,"서울시","동작구")
-SiGu_Dong(str1,"동작구","사당동")
 SiGu(str1,"서울시","동작구")
+
+GuDong_Gu(str1,"동작구","사당동")
+GuDong_Dong(str1,"동작구","사당동")
 GuDong(str1,"동작구","사당동")
 # SiGuDong <- fuction(str, )
