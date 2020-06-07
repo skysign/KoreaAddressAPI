@@ -3,24 +3,40 @@
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
-df <- read.csv("../juso.go.kr/202004_주소DB_전체분/지번_서울특별시.txt",
-               header = FALSE,
-               sep = "|",
-               stringsAsFactors = FALSE)
 
-head(df)
+```{r}
+seoul <- read.table("../juso.go.kr/202004_주소DB_전체분/Seoul/지번_서울특별시.txt",sep="|",stringsAsFactors=FALSE, comment.char="", colClasses="character")
+```
+
+```{r}
+
+View(seoul)
+
+```
+
+```{r}
+library(dplyr)
+
+seoul <- rename(seoul, "GwanRiBeonHo"="V1",
+                "IlLyeonBeonHo "="V2",
+                "BeopJeongDongKoDeu "="V3",
+                "SiDoMyeong"="V4",
+                "SiGunGuMyeong "="V5",
+                "BeopJeongEupMyeonDongMyeong"="V6",
+                "BeopJeongRiMyeong"="V7",
+                "SanYeoBu"="V8",
+                "JiBeonBonBeon(BeonJi)"="V9",
+                "JiBeonBuBeon(Ho)"="V10",
+                "DaePyoYeoBu"="V11")
+
 ```
 
 
 ```{r}
 
-View(df)
+View(seoul)
 
 ```
-
-
-
 
 
 
