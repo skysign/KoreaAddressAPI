@@ -1,13 +1,19 @@
-# Overview
-# Test script for pull request
-# Character Vectors
 
-# We often work with data that are categorical. To create a vector of text elements—**strings** in programming terms—we must place the text in quotes:
+library(tokenizers)
+library(stringr)
 
-string.vector <- c("Atlantic", "Pacific", "Arctic")
-string.vector
 
-# Categorical data can also be stored as a **factor**, which has an underlying numeric representation. Models will convert factors to dummies.<sup>1</sup>
+modified_juso <- function(str, juso) {
+  # juso = "서울 \t	관악구 \n\n	남현동"
+  
+  tokens = tokenize_words(juso, simplify = TRUE) 
+  
+  str = str_c(tokens, collapse = " ")
 
-factor.vector <- factor(string.vector)
-factor.vector
+  return(str)
+}
+
+juso = "서울 \t	관악구 \n\n	남현동"
+
+clean_juso <- modified_juso(str, juso)
+clean_juso

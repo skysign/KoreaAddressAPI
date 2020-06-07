@@ -5,10 +5,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-
 seoul <- read.table("../juso.go.kr/202004_주소DB_전체분/Seoul/지번_서울특별시.txt",sep="|",stringsAsFactors=FALSE, comment.char="", colClasses="character")
-
-
 ```
 
 ```{r}
