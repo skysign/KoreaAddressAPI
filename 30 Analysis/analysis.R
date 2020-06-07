@@ -27,18 +27,27 @@ str6 = "서울시동작구사당동"     #공백이 없음
 str7 = "서울시 동작구 사당동" #tab으로 나눔
 str8 = "서울시|동작구|사당동"   #|으로 나눔
 
-SiGu_Si <- function(str, parent, child) {
+ParentChild_parent <- function(str, parent, child) {
   pattern = paste0(parent, "(?=[\\s\\|\\t]?", child, ")")
   print(pattern)
   # match = grep(pattern, str, perl = TRUE)
   match = str_match(str, pattern)
-  
+    
   if (is.na(match) > 0)
     return("")
-  
+    
   return(match)
 }
 
+SiGu_Si <- function(str, parent, child) {
+  return(ParentChild_parent(str, parent, child))
+}
+
+GuDong_gu <- function(str, parent, child) {
+  return(ParentChild_parent(str, parent, child))
+}
+    
+  
 SiGu_Gu <- function(str, parent, child) {
   pattern = paste0("(?<=", parent, "[\\s\\|\\t]?)", child)
   print(pattern)
@@ -80,6 +89,8 @@ SiGu_Dong <- function(str, parent, child) {
 
 GuDong <- function(str, parent, child) {
   print(str)
+  print(parent)
+  print(child)
   match = SiGu_Gu(str, parent, child)
   print(match)
   # if (parent == match) {
@@ -95,6 +106,7 @@ GuDong <- function(str, parent, child) {
 
 match = GuDong(str1,"동작구","사당동")
 match
+
 
 # match = SiGu(str1, "서울시", "동작구")
 # match
@@ -120,3 +132,10 @@ match
 # # 
 # # match
 # 
+
+SiGu_Si(str1,"서울시","동작구")
+SiGu_Gu(str1,"서울시","동작구")
+SiGu_Dong(str1,"동작구","사당동")
+SiGu(str1,"서울시","동작구")
+GuDong(str1,"동작구","사당동")
+# SiGuDong <- fuction(str, )
