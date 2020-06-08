@@ -73,13 +73,13 @@ https://book.naver.com/bookdb/book_detail.nhn?bid=12256508
 * Toast 에서도 한국주소 API는 판매가 중지 되었습니다. 자세한 내용은 [여기 참고](https://www.toast.com/kr/support/notice/detail/1331)하세요
 * juso.go.kr에서 제공하는 rest API가 있기는 했지만, 사용자가 입력한 에러가 있는 주소를 잘 처리해주지 못했습니다.
 
+**결론! 없으면 만든다. :-)**
+
 ## juso.go.kr에서 제공하는 데이터의 저작권에 따라 사용에 제한이 있지 않을까요?
 
 **공공데이터법에 근거하여 공공데이터는 누구나 이용가능하고, 영리 목적의 이용을 포함한 자유로운 활용이 보장되므로 목적에 맞게 활용하시기 바랍니다.**
 - 이렇게 답변 되어 있습니다. ^^
 - 출처 : https://www.juso.go.kr/addrlink/DevCenterQABoardDetail.do?mgtSn=36836&currentPage=1&searchType=subject&keyword=%EC%A0%80%EC%9E%91
-
-**결론! 없으면 만든다. :-)**
 
 ---
 
