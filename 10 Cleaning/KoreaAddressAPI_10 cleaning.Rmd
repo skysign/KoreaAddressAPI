@@ -1,8 +1,3 @@
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ```{r library}
 library(dplyr)
 ```
@@ -13,10 +8,10 @@ seoul <- read.table("../juso.go.kr/202004_주소DB_전체분/지번_서울특별
                     comment.char="", colClasses="character")
 
 seoul <- rename(seoul, "GwanRiBeonHo"="V1",
-                "IlLyeonBeonHo "="V2",
-                "BeopJeongDongKoDeu "="V3",
+                "IlLyeonBeonHo"="V2",
+                "BeopJeongDongKoDeu"="V3",
                 "SiDoMyeong"="V4",
-                "SiGunGuMyeong "="V5",
+                "SiGunGuMyeong"="V5",
                 "BeopJeongEupMyeonDongMyeong"="V6",
                 "BeopJeongRiMyeong"="V7",
                 "SanYeoBu"="V8",
@@ -24,7 +19,7 @@ seoul <- rename(seoul, "GwanRiBeonHo"="V1",
                 "JiBeonBuBeon(Ho)"="V10",
                 "DaePyoYeoBu"="V11")
 
-View(seoul)
+head(seoul)
 
 pathPrefix = '../data/'
 pathPostFix = 'JiBeon_Korea.csv'
