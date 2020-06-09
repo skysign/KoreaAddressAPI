@@ -1,5 +1,5 @@
 # Initialize
-source(file.path(getwd(), "01 common", "init.R"))
+source(file.path(getwd(), '..', "01 common", "init.R"))
 
 
 library(tokenizers)
