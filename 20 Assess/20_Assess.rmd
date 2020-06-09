@@ -1,22 +1,5 @@
----
-title: "20 Assess"
-output: html_document
----
-
-```{r}
-# install.packages('devtools')
-#install.packages("remotes")
-#remotes::install_github("hadley/devtools") # for macOS
-#install.packages("devtools")
-```
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-#install_github("plgrmr/readAny", force = TRUE)
-options(encoding = 'UTF-8')
-#setwd("~/KoreaAddressAPI/")
-#getwd()
-#source(file.path(getwd(), "01 common", "init.R"))
+source(file.path(getwd(), '..', "01 common", "init.R"))
 ```
 
 ```{r libraries, include=FALSE}
@@ -26,13 +9,9 @@ library(dplyr)
 # 주소 데이터 불러오기
 
 ```{r}
-df= read.table("../data/JiBeon_Korea.csv",sep=",", stringsAsFactors=FALSE, 
-               comment.char="", colClasses="character", header=1)
-head(df)
-```
+df = read.csv("../data/JiBeon_Korea.csv")
 
-```{r}
-df
+head(df)
 ```
 
 ### 모든 컬럼의 타입을 chraracter로 변경하기
@@ -53,22 +32,104 @@ head(df)
 ```{r}
 columns = c('BeopJeongDongKoDeu', 'SiDoMyeong', 'SiGunGuMyeong',
             'BeopJeongEupMyeonDongMyeong')
-df2 <- data.frame(df$BeopJeongDongKoDeu,df$SiDoMyeong,df$SiGunGuMyeong,df$BeopJeongEupMyeonDongMyeong)
+df2 <- df[columns]
 head(df2)
 ```
 
 ```{r}
-df2[,"BeopJeongDongKoDeu_si"] = substr(df2$df.BeopJeongDongKoDeu,1,2) # 법정동 코드에서 시 분리
-df2[,"BeopJeongDongKoDeu_gu"] = substr(df2$df.BeopJeongDongKoDeu,3,5) # 법정동 코드에서 구 분리
-df2
+df2['code_root'] = '0'
+df2['code_Si'] = substr(df2$BeopJeongDongKoDeu, 1, 2) # 법정동 코드에서 시 분리
+df2['code_Gu'] = substr(df2$BeopJeongDongKoDeu, 3, 5) # 법정동 코드에서 구 분리
+df2['code_Dong'] = substr(df2$BeopJeongDongKoDeu, 6, 8) # 법정동 코드에서 동 분리
+
+head(df2)
 ```
 
 
 ```{r}
-unique(df2$BeopJeongDongKoDeu_si)
+siColumns = c('code_root', 'code_Si', 'SiDoMyeong')
+guColumns = c('code_Si', 'code_Gu', 'SiGunGuMyeong')
+dongColumns = c('code_Gu', 'code_Dong', 'BeopJeongEupMyeonDongMyeong')
+
+dfSi = df2[siColumns]
+dfGu = df2[guColumns]
+dfDong = df2[dongColumns]
+
+dfSi = unique(dfSi)
+dfGu = unique(dfGu)
+dfDong = unique(dfDong)
+
+newColumns = c('parent', 'child', 'HaengJeongGuYeok')
+
+colnames(dfSi) = newColumns
+colnames(dfGu) = newColumns
+colnames(dfDong) = newColumns
+
+head(dfSi)
+head(dfGu)
+head(dfDong)
 ```
 
+# 만들고 있는 API 데모
 
 ```{r}
-unique(df2$BeopJeongDongKoDeu_gu)
+dfsRec = c(df_sido, df_gu, df_dong)
+
+dummyParentOfSiDO <- function(dirtyJuso, parent, child) {
+  print('dummy is called')
+  return(TRUE)
+}
+
+fnRec = list(dummyParentOfSiDO, SiGu, GuDong)
+
+
+recJuso <- function(dirtyJuso, idx, df, columns, dfsRec, fnRec) {
+  
+}
+
+cleanJuso <- function(dirtyJuso) {
+  df = data.frame(c(''))
+  
+  columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong')
+  for(column in columns) {
+    df[column] = 'x';
+  }
+  
+  idx = 1;
+  recJuso(dirtyJuso, idx, df, columns, dfsRec, fnRec);
+  
+  return(df)
+}
+
+
+KoreaAddressAPI <- function(dfDirtyJuso) {
+  df = data.frame(dfDirtyJuso)
+  
+  columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong')
+  for(column in columns) {
+    df[column] = '';
+  }
+  
+  for(idxRow in 1:nrow(dfDirtyJuso)) {
+    dirtyJuso = dfDirtyJuso['dirtyJuso', idxRow]
+    
+    dfCleaned = cleanJuso(dirtyJuso)
+    
+    for(column in columns) {
+      df[column] = dfCleaned[column];
+    }
+  }
+
+  return(df)
+}
+
+
+dirtyJuso = c('서울시 동작구 사당동',
+              '서울시 없는구 자당동')
+dfDirtyJuso = data.frame(dirtyJuso)
+dfDirtyJuso
+
+
+dfCleaned = KoreaAddressAPI(dfDirtyJuso)
+dfCleaned
 ```
