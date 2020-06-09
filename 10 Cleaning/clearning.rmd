@@ -1,30 +1,27 @@
----
-title: "homework_bora"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r library}
+library(dplyr)
 ```
 
-## R Markdown
+```{r}
+seoul <- read.table("../juso.go.kr/202004_주소DB_전체분/지번_서울특별시.txt", sep="|")
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+seoul <- rename(seoul, "GwanRiBeonHo"="V1",
+                "IlLyeonBeonHo"="V2",
+                "BeopJeongDongKoDeu"="V3",
+                "SiDoMyeong"="V4",
+                "SiGunGuMyeong"="V5",
+                "BeopJeongEupMyeonDongMyeong"="V6",
+                "BeopJeongRiMyeong"="V7",
+                "SanYeoBu"="V8",
+                "JiBeonBonBeon(BeonJi)"="V9",
+                "JiBeonBuBeon(Ho)"="V10",
+                "DaePyoYeoBu"="V11")
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+head(seoul)
 
-```{r cars}
-summary(cars)
+pathPrefix = '../data/'
+pathPostFix = 'JiBeon_Korea.csv'
+path = paste0(pathPrefix, pathPostFix)
+
+write.csv(seoul, path, row.names = FALSE, fileEncoding = 'UTF-8')
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-
