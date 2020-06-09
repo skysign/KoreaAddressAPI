@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ---
 title: "20 Assess"
 output: html_document
@@ -15,13 +14,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 #install_github("plgrmr/readAny", force = TRUE)
 options(encoding = 'UTF-8')
-setwd("~/KoreaAddressAPI/")
-getwd()
-source(file.path(getwd(), "01 common", "init.R"))
+#setwd("~/KoreaAddressAPI/")
+#getwd()
+#source(file.path(getwd(), "01 common", "init.R"))
 ```
 
-=======
->>>>>>> upstream/master
 ```{r libraries, include=FALSE}
 library(dplyr)
 ```
@@ -29,28 +26,24 @@ library(dplyr)
 # 주소 데이터 불러오기
 
 ```{r}
-pathPrefix = '../juso.go.kr/202004_주소DB_전체분/'
-pathPostFix = '_서울특별시.txt'
-pathJibun = paste0(pathPrefix, '지번', pathPostFix)
-
-df= read.table(pathJibun,
-               sep="|",
-               stringsAsFactors = FALSE,
-               colClasses = "character",
-               header = FALSE)
-
+df= read.table("../data/JiBeon_Korea.csv",sep=",", stringsAsFactors=FALSE, 
+               comment.char="", colClasses="character", header=1)
 head(df)
+```
+
+```{r}
+df
 ```
 
 ### 모든 컬럼의 타입을 chraracter로 변경하기
 ```{r }
-df$V3 = as.character(df$V3) # 법정동코드 10자리 , 앞 두자리는 시도, 3~5자리는 구
-df$V4 = as.character(df$V4) #시, 도
-df$V5 = as.character(df$V5) #구
-df$V6 = as.character(df$V6) #동
+df$BeopJeongDongKoDeu = as.character(df$BeopJeongDongKoDeu) # 법정동코드 10자리 , 앞 두자리는 시도, 3~5자리는 구
+df$SiDoMyeong = as.character(df$SiDoMyeong) #시, 도
+df$SiGunGuMyeong = as.character(df$SiGunGuMyeong) #구
+df$BeopJeongEupMyeonDongMyeong = as.character(df$BeopJeongEupMyeonDongMyeong) #동
 
-df$V9 = as.character(df$V9) #지번본번
-df$V10 = as.character(df$V10) #지번부번
+df$JiBeonBonBeon.BeonJi = as.character(df$JiBeonBonBeon.BeonJi) #지번본번
+df$JiBeonBuBeon.Ho = as.character(df$JiBeonBuBeon.Ho) #지번부번
 
 head(df)
 ```
@@ -58,64 +51,24 @@ head(df)
 ## 코드,시,군,동만 분리하여 데이터 프레임 생성
 
 ```{r}
-columns = c('V3', 'V4', 'V5', 'V6')
-df_all2 <- df[columns]
-df_all2
+columns = c('BeopJeongDongKoDeu', 'SiDoMyeong', 'SiGunGuMyeong',
+            'BeopJeongEupMyeonDongMyeong')
+df2 <- data.frame(df$BeopJeongDongKoDeu,df$SiDoMyeong,df$SiGunGuMyeong,df$BeopJeongEupMyeonDongMyeong)
+head(df2)
 ```
 
 ```{r}
-df_all2 <- df_all2 %>%
-  rename ("code"="V3")
-df_all2 <- df_all2 %>%
-  rename ("sido"="V4")
-df_all2 <- df_all2 %>%
-  rename ("gu"="V5")
-df_all2 <- df_all2 %>%
-  rename ("dong"="V6")
-```
-
-```{r}
-df_all2[,"sido_code"] = substr(df_all2$code,1,2) # 법정동 코드에서 시 분리
-df_all2[,"gu_code"] = substr(df_all2$code,3,5) # 법정동 코드에서 구 분리
-df_all2
+df2[,"BeopJeongDongKoDeu_si"] = substr(df2$df.BeopJeongDongKoDeu,1,2) # 법정동 코드에서 시 분리
+df2[,"BeopJeongDongKoDeu_gu"] = substr(df2$df.BeopJeongDongKoDeu,3,5) # 법정동 코드에서 구 분리
+df2
 ```
 
 
-### 시
 ```{r}
-columns = c('sido_code', 'sido')
-df_sido = df_all2[columns]
-df_sido = unique(df_sido)
-df_sido
+unique(df2$BeopJeongDongKoDeu_si)
 ```
 
 
-### 구
 ```{r}
-columns = c('sido_code', 'gu_code', 'gu')
-df_gu = df_all2[columns]
-df_gu = unique(df_gu)
-df_gu
-```
-### 동
-```{r}
-columns = c('gu_code', 'dong')
-df_dong = df_all2[columns]
-df_dong = unique(df_dong)
-df_dong
-```
-
-### 번지
-
-```{r}
-# 임시로 주석처리함
-# df$BunJi = paste0(df$V9, '-', df$V10)
-# 
-# df %>%
-#   filter(V4 == sido[1]) %>% 
-#   filter(V5 == gu[1]) %>% 
-#   filter(V6 == dongs[1]) -> df_bunji
-# 
-# BunJi = unique(df_bunji$BunJi)
-# BunJi
+unique(df2$BeopJeongDongKoDeu_gu)
 ```
