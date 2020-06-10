@@ -1,5 +1,7 @@
 ```{r setup, include=FALSE}
 source(file.path(getwd(), '..', "01 common", "init.R"))
+source(file.path(getwd(), '..', "30 Analysis", "analysis.R"))
+source(file.path(getwd(), '..', "90 Utility", "utility.R"))
 ```
 
 ```{r libraries, include=FALSE}
@@ -73,32 +75,62 @@ head(dfDong)
 # 만들고 있는 API 데모
 
 ```{r}
-dfsRec = c(df_sido, df_gu, df_dong)
-
-dummyParentOfSiDO <- function(dirtyJuso, parent, child) {
-  print('dummy is called')
-  return(TRUE)
+printf <- function(...) {
+  # print(sprintf(...))
 }
 
-fnRec = list(dummyParentOfSiDO, SiGu, GuDong)
+dfsRec = list(dfSi, dfGu, dfDong)
+fnsRec = list(SiGu, GuDong)
 
+recJuso <- function(dirtyJuso, idx, df, columns, dfs, fnRec) {
+  if(idx > length(fnsRec)) {
+    printf('length(fnsRec) %d', length(fnsRec))
+    return(df)
+  }
 
-recJuso <- function(dirtyJuso, idx, df, columns, dfsRec, fnRec) {
+  dfParent = dfsRec[[idx]]
+  dfChildren = dfsRec[[idx+1]]
+
+  printf('recJuso idx %d', idx)
+
+  for(idxParent in 1:nrow(dfParent)) {
+    parentCode = dfParent$child[idxParent]
+    parentHaengJeongGuYeok = dfParent$HaengJeongGuYeok[idxParent]
+    printf('parent %s %s', parentCode, parentHaengJeongGuYeok)
+
+    dfChild = dfChildren[dfChildren$parent == parentCode, ]
+
+    for(idxChild in 1:nrow(dfChild)) {
+      childCode = dfChild$child[idxChild]
+      childHaengJeongGuYeok = dfChild$HaengJeongGuYeok[idxChild]
+      # printf('child %s %s', idxChild, childHaengJeongGuYeok)
+
+      if(TRUE == fnRec[[idx]](dirtyJuso,
+                              parentHaengJeongGuYeok,
+                              childHaengJeongGuYeok)) {
+        df[1, idx+1] = parentHaengJeongGuYeok
+        df[1, idx+1+1] = childHaengJeongGuYeok
+        idx = idx+1
+        printf('before recJuso idx %d %s', idx, paste(parentHaengJeongGuYeok, childHaengJeongGuYeok))
+        return(recJuso(dirtyJuso, idx, df, columns, dfsRec, fnRec))
+      }
+    }
+  }
   
+  return(df)
 }
 
 cleanJuso <- function(dirtyJuso) {
-  df = data.frame(c(''))
-  
+  df = data.frame(c(dirtyJuso))
+  colnames(df) <- c('dirtyJuso')
+
   columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong')
   for(column in columns) {
     df[column] = 'x';
   }
   
   idx = 1;
-  recJuso(dirtyJuso, idx, df, columns, dfsRec, fnRec);
-  
-  return(df)
+  return(recJuso(dirtyJuso, idx, df, columns, dfsRec, fnsRec))
 }
 
 
@@ -111,12 +143,16 @@ KoreaAddressAPI <- function(dfDirtyJuso) {
   }
   
   for(idxRow in 1:nrow(dfDirtyJuso)) {
-    dirtyJuso = dfDirtyJuso['dirtyJuso', idxRow]
+    dirtyJuso = dfDirtyJuso$dirtyJuso[idxRow]
+    dirtyJuso = as.character(dirtyJuso)
+    dirtyJuso = modified_juso(dirtyJuso)
+    
+    printf('KoreaAddressAPI index(%d) %s', idxRow, dirtyJuso)
     
     dfCleaned = cleanJuso(dirtyJuso)
-    
+
     for(column in columns) {
-      df[column] = dfCleaned[column];
+      df[idxRow, column] = dfCleaned[1, column];
     }
   }
 
@@ -124,8 +160,8 @@ KoreaAddressAPI <- function(dfDirtyJuso) {
 }
 
 
-dirtyJuso = c('서울시 동작구 사당동',
-              '서울시 없는구 자당동')
+dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
+              '서울특별시 없는구 자당동')
 dfDirtyJuso = data.frame(dirtyJuso)
 dfDirtyJuso
 
@@ -133,3 +169,4 @@ dfDirtyJuso
 dfCleaned = KoreaAddressAPI(dfDirtyJuso)
 dfCleaned
 ```
+
