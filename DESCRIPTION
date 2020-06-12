@@ -11,7 +11,7 @@ Authors@R: c(person("ByeongKeon", "Kim", role = c("aut", "cre"),
             person("lady-mama", "", role = "aut",
                 email = "telesoft2000@gmail.com"),
             person("seongilp", "", role = "aut",
-                email = "zihado@gmail.com"),
+                email = "zihado@gmail.com")
             )
 Author: ByeongKeon Kim [aut, cre],
     borajeong88 [aut],
