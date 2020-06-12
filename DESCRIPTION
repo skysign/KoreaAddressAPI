@@ -1,5 +1,5 @@
 Package: KoreaAddressAPI
-Version: 0.1
+Version: 0.1.1
 Date: 2020-06-12
 Title: To validate, parse and correct Korea address
 Authors@R: c(person("ByeongKeon", "Kim", role = c("aut", "cre"),
