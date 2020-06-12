@@ -24,6 +24,7 @@ Suggests: MASS
 Description: This package is to validate/parse/correct Korea address
     by utilizing addresses which are provided https://www.juso.go.kr
 License: MIT | Apache-2.0
+LazyData: false
 Encoding: UTF-8
 URL: https://skysign.github.io/KoreaAddressAPI
 BugReports: https://github.com/skysign/KoreaAddressAPI/issues
