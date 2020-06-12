@@ -1,0 +1,12 @@
+```{r setup}
+# install.packages('devtools')
+
+devtools::install_github('skysign/KoreaAddressAPI')
+```
+
+``` {r}
+library(dplyr)
+library(KoreaAddressAPI)
+
+KAAhello()
+```
