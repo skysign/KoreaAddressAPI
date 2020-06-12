@@ -5,7 +5,7 @@ Title: To validate, parse and correct Korea address
 Authors@R: c(person("ByeongKeon", "Kim", role = c("aut", "cre"),
                 email = "skysign@gmail.com"),
             person("borajeong88", "", role = "aut",
-                email = "borajeong88@gmail.com")),
+                email = "borajeong88@gmail.com"),
             person("JayoungKim82", "", role = "aut",
                 email = "jayoung82.kim@gmail.com"),
             person("lady-mama", "", role = "aut",
@@ -23,6 +23,7 @@ Depends: R (>= 3.6.3), dplyr
 Suggests: MASS
 Description: This package is to validate/parse/correct Korea address
     by utilizing addresses which are provided https://www.juso.go.kr
-License: MIT
+License: MIT | Apache-2.0
+Encoding: UTF-8
 URL: https://skysign.github.io/KoreaAddressAPI
 BugReports: https://github.com/skysign/KoreaAddressAPI/issues
