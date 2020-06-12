@@ -1,10 +1,10 @@
-KAAhello.onAttach <- function(libname, pkgname) {
+.onAttach <- function(libname, pkgname) {
   ver = 'Korea Address was released in 202004'
   msg = paste(pkgname, ver)
   packageStartupMessage(msg)
 }
 
-KAAhello.onLoad <- function(libname, pkgname) {
+.onLoad <- function(libname, pkgname) {
   msg = 'Loading begins'
   packageStartupMessage(msg)
   
