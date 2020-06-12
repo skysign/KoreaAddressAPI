@@ -1,20 +1,28 @@
-Package: pkgname
-Version: 0.5-1
-Date: 2015-01-01
-Title: My First Collection of Functions
-Authors@R: c(person("Joe", "Developer", role = c("aut", "cre"),
-                     email = "Joe.Developer@some.domain.net"),
-              person("Pat", "Developer", role = "aut"),
-              person("A.", "User", role = "ctb",
-                     email = "A.User@whereever.net"))
-Author: Joe Developer [aut, cre],
-  Pat Developer [aut],
-  A. User [ctb]
-Maintainer: Joe Developer <Joe.Developer@some.domain.net>
-Depends: R (>= 3.1.0), nlme
+Package: KoreaAddressAPI
+Version: 0.1
+Date: 2020-06-12
+Title: To validate, parse and correct Korea address
+Authors@R: c(person("ByeongKeon", "Kim", role = c("aut", "cre"),
+                email = "skysign@gmail.com"),
+            person("borajeong88", "", role = "aut",
+                email = "borajeong88@gmail.com")),
+            person("JayoungKim82", "", role = "aut",
+                email = "jayoung82.kim@gmail.com"),
+            person("lady-mama", "", role = "aut",
+                email = "telesoft2000@gmail.com"),
+            person("seongilp", "", role = "aut",
+                email = "zihado@gmail.com"),
+            )
+Author: ByeongKeon Kim [aut, cre],
+    borajeong88 [aut],
+    JayoungKim82 [aut],
+    lady-mama [aut],
+    seongilp [aut]
+Maintainer: ByeongKeon Kim <skysign@gmail.com>
+Depends: R (>= 3.6.3), dplyr
 Suggests: MASS
-Description: A (one paragraph) description of what
-  the package does and why it may be useful.
-License: GPL (>= 2)
-URL: https://www.r-project.org, http://www.another.url
-BugReports: https://pkgname.bugtracker.url
+Description: This package is to validate/parse/correct Korea address
+    by utilizing addresses which are provided https://www.juso.go.kr
+License: MIT
+URL: https://skysign.github.io/KoreaAddressAPI
+BugReports: https://github.com/skysign/KoreaAddressAPI/issues
