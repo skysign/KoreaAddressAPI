@@ -17,6 +17,12 @@
   packageStartupMessage(msg)
   
   csvFile = unz(zipFile, "JiBeon_Korea.csv")
+  print('unz')
+  lines = readLines(csvFile)
+  print('readLines')
+  print(lines[[0]])
+  print(lines[[1]])
+  print('readLines 0 1')
 
   msg = 'Loading begins 02'
   print(msg)
