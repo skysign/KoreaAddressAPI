@@ -16,4 +16,6 @@
 #' @export
 KAAhello <- function() {
   print("KAAhello, world!")
+  head(dfsRec[[1]])
+  print("KAAhello, world! end")
 }

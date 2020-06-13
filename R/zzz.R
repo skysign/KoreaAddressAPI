@@ -11,10 +11,23 @@
   packageStartupMessage(msg)
   
   zipFile = system.file("data", "JiBeon_Korea.zip", package = pkgname)
+  
+  msg = 'Loading begins 01'
+  print(msg)
+  packageStartupMessage(msg)
+  
   csvFile = unz(zipFile, "JiBeon_Korea.csv")
 
+  msg = 'Loading begins 02'
+  print(msg)
+  packageStartupMessage(msg)
+  
   df = read.csv(csvFile)
 
+  msg = 'Loading begins 03'
+  print(msg)
+  packageStartupMessage(msg)
+  
   df$BeopJeongDongKoDeu = as.character(df$BeopJeongDongKoDeu)
   df$SiDoMyeong = as.character(df$SiDoMyeong)
   df$SiGunGuMyeong = as.character(df$SiGunGuMyeong)
@@ -23,19 +36,35 @@
   df$JiBeonBonBeon.BeonJi = as.character(df$JiBeonBonBeon.BeonJi)
   df$JiBeonBuBeon.Ho = as.character(df$JiBeonBuBeon.Ho)
 
+  msg = 'Loading begins 04'
+  print(msg)
+  packageStartupMessage(msg)
+  
   columns = c('BeopJeongDongKoDeu', 'SiDoMyeong', 'SiGunGuMyeong',
               'BeopJeongEupMyeonDongMyeong')
   df2 <- df[columns]
 
+  msg = 'Loading begins 05'
+  print(msg)
+  packageStartupMessage(msg)
+  
   df2['code_root'] = '0'
   df2['code_Si'] = substr(df2$BeopJeongDongKoDeu, 1, 2)
   df2['code_Gu'] = substr(df2$BeopJeongDongKoDeu, 3, 5)
   df2['code_Dong'] = substr(df2$BeopJeongDongKoDeu, 6, 8)
 
+  msg = 'Loading begins 06'
+  print(msg)
+  packageStartupMessage(msg)
+  
   siColumns = c('code_root', 'code_Si', 'SiDoMyeong')
   guColumns = c('code_Si', 'code_Gu', 'SiGunGuMyeong')
   dongColumns = c('code_Gu', 'code_Dong', 'BeopJeongEupMyeonDongMyeong')
 
+  msg = 'Loading begins 07'
+  print(msg)
+  packageStartupMessage(msg)
+  
   dfSi = df2[siColumns]
   dfGu = df2[guColumns]
   dfDong = df2[dongColumns]
@@ -44,12 +73,20 @@
   dfGu = unique(dfGu)
   dfDong = unique(dfDong)
 
+  msg = 'Loading begins 08'
+  print(msg)
+  packageStartupMessage(msg)
+  
   newColumns = c('parent', 'child', 'HaengJeongGuYeok')
 
   colnames(dfSi) = newColumns
   colnames(dfGu) = newColumns
   colnames(dfDong) = newColumns
 
+  msg = 'Loading begins 09'
+  print(msg)
+  packageStartupMessage(msg)
+  
   printf <- function(...) {
     # print(sprintf(...))
   }
@@ -58,5 +95,6 @@
   fnsRec = list(SiGu, GuDong)
   
   msg = 'Loading ends'
-  packageStartupMessage(msg)
+  print(msg)
+  #packageStartupMessage(msg)
 }
