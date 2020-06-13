@@ -28,3 +28,4 @@ LazyData: false
 Encoding: UTF-8
 URL: https://skysign.github.io/KoreaAddressAPI
 BugReports: https://github.com/skysign/KoreaAddressAPI/issues
+RoxygenNote: 7.1.0
