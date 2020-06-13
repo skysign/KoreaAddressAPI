@@ -5,7 +5,9 @@
 }
 
 .onLoad <- function(libname, pkgname) {
-  msg = 'Loading begins'
+  options(encoding = 'UTF-8')
+  msg = 'Loading begins 00'
+  print(msg)
   packageStartupMessage(msg)
   
   zipFile = system.file("data", "JiBeon_Korea.zip", package = pkgname)
