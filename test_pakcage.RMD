@@ -1,3 +1,8 @@
+``` {r}
+devtools::document()
+# devtools::use_data()
+```
+
 ```{r setup}
 # install.packages('devtools')
 
@@ -6,16 +11,10 @@ devtools::install_local('C:/work_git/KoreaAddressAPI', force = TRUE)
 ```
 
 ``` {r}
-devtools::document()
-```
-
-``` {r}
 #library(dplyr)
 library(KoreaAddressAPI)
 
-.libPaths()
-
-KAAhello()
+dummy()
 ```
 
 ``` {r}

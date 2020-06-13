@@ -38,10 +38,6 @@ recJuso <- function(dirtyJuso, idx, df, columns, dfs, fnsRec) {
 
 cleanJuso <- function(dirtyJuso) {
   fnsRec = list(SiGu, GuDong)
-  # print(fnsRec)
-  dfsRdaFile = system.file("data", "dfs.rda", package = "KoreaAddressAPI")
-  # print(dfsRdaFile)
-  load(dfsRdaFile)
 
   df = data.frame(c(dirtyJuso))
   colnames(df) <- c('dirtyJuso')
