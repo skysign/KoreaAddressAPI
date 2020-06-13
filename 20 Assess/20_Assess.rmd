@@ -11,7 +11,7 @@ library(dplyr)
 # 주소 데이터 불러오기
 
 ```{r}
-df = read.csv("../data/JiBeon_Korea.csv")
+df = read.csv("../cleaned/202004/JiBeon_Korea.csv")
 
 head(df)
 ```
@@ -72,14 +72,16 @@ head(dfGu)
 head(dfDong)
 ```
 
+# R package에 넣을 데이터프레임 rda에 저장
+
+```{r}
+dfsRec = list(dfSi, dfGu, dfDong)
+save(dfsRec, file = '../data/dfs.rda')
+```
+
 # 만들고 있는 API 데모
 
 ```{r}
-printf <- function(...) {
-  # print(sprintf(...))
-}
-
-dfsRec = list(dfSi, dfGu, dfDong)
 fnsRec = list(SiGu, GuDong)
 
 recJuso <- function(dirtyJuso, idx, df, columns, dfs, fnRec) {

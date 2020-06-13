@@ -1,7 +1,8 @@
 ```{r setup}
 # install.packages('devtools')
 
-devtools::install_github('skysign/KoreaAddressAPI', force = TRUE)
+# devtools::install_github('skysign/KoreaAddressAPI', force = TRUE)
+devtools::install_local('C:/work_git/KoreaAddressAPI', force = TRUE)
 ```
 
 ``` {r}
@@ -16,3 +17,15 @@ library(KoreaAddressAPI)
 
 KAAhello()
 ```
+
+``` {r}
+dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
+              '서울특별시 없는구 자당동')
+dfDirtyJuso = data.frame(dirtyJuso)
+dfDirtyJuso
+
+dfCleaned = KoreaAddressParse(dfDirtyJuso)
+dfCleaned
+```
+
+
