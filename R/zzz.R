@@ -22,7 +22,7 @@
   print(msg)
   packageStartupMessage(msg)
   
-  df = read.csv(csvFile)
+  df = read.csv(csvFile, encoding = 'UTF-8')
 
   msg = 'Loading begins 03'
   print(msg)
