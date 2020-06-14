@@ -2,32 +2,11 @@
 usethis::use_pkgdown()
 ```
 
-
 ``` {r}
+devtools::document()
 pkgdown::build_site()
 ```
 
 ``` {r}
-options(encoding="utf-8")
-devtools::document()
+
 ```
-
-``` {r}
-devtools::session_info() 
-```
-
-``` {r}
-# options()
-getOption("encoding") 
-```
-
-``` {r}
-sessionInfo() 
-```
-
-``` {r}
-Sys.setenv(LANG = "en_US.UTF-8") 
-sessionInfo() 
-```
-
-
