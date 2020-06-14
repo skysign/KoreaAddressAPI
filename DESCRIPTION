@@ -23,7 +23,7 @@ Depends: R (>= 3.6.3), dplyr, tokenizers, stringr
 Suggests: MASS
 Description: This package is to validate/parse/correct Korea address
     by utilizing addresses which are provided https://www.juso.go.kr
-License: MIT
+License: Apache License 2.0
 LazyData: true
 Encoding: UTF-8
 URL: https://skysign.github.io/KoreaAddressAPI

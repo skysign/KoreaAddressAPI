@@ -1,30 +1,33 @@
 ``` {r}
+usethis::use_pkgdown()
+```
+
+
+``` {r}
+pkgdown::build_site()
+```
+
+``` {r}
+options(encoding="utf-8")
 devtools::document()
-# devtools::use_data()
-```
-
-```{r setup}
-# install.packages('devtools')
-
-# devtools::install_github('skysign/KoreaAddressAPI', force = TRUE)
-devtools::install_local('C:/work_git/KoreaAddressAPI', force = TRUE)
 ```
 
 ``` {r}
-#library(dplyr)
-library(KoreaAddressAPI)
-
-dummy()
+devtools::session_info() 
 ```
 
 ``` {r}
-dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
-              '서울특별시 없는구 자당동')
-dfDirtyJuso = data.frame(dirtyJuso)
-dfDirtyJuso
+# options()
+getOption("encoding") 
+```
 
-dfCleaned = KoreaAddressParse(dfDirtyJuso)
-dfCleaned
+``` {r}
+sessionInfo() 
+```
+
+``` {r}
+Sys.setenv(LANG = "en_US.UTF-8") 
+sessionInfo() 
 ```
 
 

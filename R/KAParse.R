@@ -51,8 +51,35 @@ cleanJuso <- function(dirtyJuso) {
   return(recJuso(dirtyJuso, idx, df, columns, dfsRec, fnsRec))
 }
 
+#' @title KAParse: Parse Korea address as per areas
+#' @description This function is to parse Korea address string as per administrative areas.
+#' @param dfInput Input data frame
+#' @param columnName column name of input data frame, which will be parsed 
+#' @return data frame is reaturned and it have administrative areas as new columns
+#' @details KAParse read only the column which is pointed by columnName parameter, and add new columns for administrative areas such as SiDoMyeong, SiGunGuMyeong. If we can't find appropriated administrative area, we mark 'x' to its corresponding column.
+#' @examples
+#' @encoding UTF8
+#' library(KoreaAddressAPI)
+#'
+#' dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
+#' '서울특별시 없는구 자당동')
+#' dfDirtyJuso = data.frame(dirtyJuso)
+#' dfDirtyJuso
+#'
+#' dfCleaned = KAParse(dfDirtyJuso)
+#' dfCleaned
+#'
+#' # We know that Korean chracters above are not displayed correctly.
+#' # However, KAParse() works fine with Korean characters, don't worry about it.
+#' # Please visit below to see the fine example of KAParse() function.
+#' # https://github.com/skysign/KoreaAddressAPI/blob/master/examples/KRA_example.rmd
+#' #
+#' # It is due to that roxygen2 don't support UTF-8 currently.
+#' # See here(https://github.com/r-lib/roxygen2/issues/787) for more detail regarding roxygen2/UTF-8.
+#'
+#' @rdname KAParse
 #' @export
-KoreaAddressParse <- function(dfDirtyJuso) {
+KAParse <- function(dfDirtyJuso) {
   df = data.frame(dfDirtyJuso)
   
   columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong')
