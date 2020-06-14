@@ -77,72 +77,35 @@
 <div id="한국주소api-koreaaddressapi" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#%ED%95%9C%EA%B5%AD%EC%A3%BC%EC%86%8Capi-koreaaddressapi" class="anchor"></a>한국주소API (KoreaAddressAPI)</h1></div>
-<p>한국 주소 API, juso.go.kr의 주소데이터 기반으로 만든 한국주소 API입니다.</p>
-<p>아래와 같은 다양한 형태의 주소를 깨끗한 주소로 만들어주는 API로, R 과 Python을 사용하여 개발되었습니다.</p>
-<p>사용법은 <a href="%EC%95%84%EC%A7%81%EB%A7%81%ED%81%AC%EC%97%86%EB%8B%A4">여기</a>를 참고하세요</p>
-<hr>
-<p>입력주소 예제 #1 도로명주소로 입력되어 있는 주소 예제입니다.</p>
+<p>R 에서 한국 주소를 다루기 위한 Package 입니다.</p>
+<pre><code>library(KoreaAddressAPI)
+
+dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
+              '서울특별시 없는구 자당동')
+dfDirtyJuso = data.frame(dirtyJuso)
+dfDirtyJuso
+#&gt;                               dirtyJuso
+#&gt; 1 서울특별시 \n\t   동작구 | |   사당동
+#&gt; 2              서울특별시 없는구 자당동
+
+dfCleaned = KAParse(dfDirtyJuso)
+dfCleaned
+#&gt;                               dirtyJuso SiDoMyeong SiGunGuMyeong BeopJeongEupMyeonDongMyeong
+#&gt; 1 서울특별시 \n\t   동작구 | |   사당동 서울특별시        동작구                      사당동
+#&gt; 2              서울특별시 없는구 자당동          x             x                           x</code></pre>
+</div>
+<div id="새소식" class="section level1">
+<h1 class="hasAnchor">
+<a href="#%EC%83%88%EC%86%8C%EC%8B%9D" class="anchor"></a>새소식</h1>
+<div id="010-릴리즈" class="section level2">
+<h2 class="hasAnchor">
+<a href="#010-%EB%A6%B4%EB%A6%AC%EC%A6%88" class="anchor"></a>0.1.0 릴리즈</h2>
 <ul>
-<li><p>특정지역명이 여러가지로 작성된 주소 / 서울/ 서울시/ 서울특별시</p></li>
-<li><p>주소 중간에 필요없는 문자나 특수문자가 추가되어 있음</p></li>
-<li><p>서울 관악구 남현3길 78, 덕원빌딩 6층</p></li>
-<li><p>서울특별시, 관악구 남현3길, 78 덕원빌딩 6층</p></li>
-<li><p>서울시 관악구 남현3길 78 덕원빌딩 6층</p></li>
+<li>KAPrase()</li>
+<li>서울시 주소만 지원</li>
+<li>시도/군구/동 까지 주소를 구분 가능함</li>
 </ul>
-<p>출력주소 예제 #1</p>
-<table class="table">
-<thead><tr class="header">
-<th>시/도</th>
-<th>군/구</th>
-<th>도로명 주소</th>
-<th>건물이름</th>
-<th>호수/상세위치</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td>서울</td>
-<td>관악구</td>
-<td>남현3길 78</td>
-<td>덕원빌딩</td>
-<td>6층</td>
-</tr></tbody>
-</table>
-<hr>
-<p>입력주소 예제 #2 지번 주소로 입력되어 있는 주소 예제입니다.</p>
-<ul>
-<li><p>특정지역명이 여러가지로 작성된 주소 / 서울/ 서울시/ 서울특별시</p></li>
-<li><p>지번주소에 ’번지’와 같은 필요 없는 글자가 포함되어 있음</p></li>
-<li><p>서울 관악구 남현동 602-1 6층</p></li>
-<li><p>서울시 관악구 남현동 602-1 6층</p></li>
-<li><p>서울특별시 관악 남현동 602-1번지 6층</p></li>
-<li><p>서울특별시 관악 남현동 602-1 6층</p></li>
-</ul>
-<p>출력주소 예제 #2</p>
-<table class="table">
-<thead><tr class="header">
-<th>시/도</th>
-<th>군/구</th>
-<th>동/읍/면</th>
-<th>지번/리</th>
-<th>건물이름</th>
-<th>호수/상세위치</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td>서울</td>
-<td>관악구</td>
-<td>남현동</td>
-<td>602-1</td>
-<td></td>
-<td>6층</td>
-</tr></tbody>
-</table>
-<hr>
-<p>입력주소 예제 #3 동/읍/면과 도로명 주소가 함께 입력되어 있는 주소 예제입니다.</p>
-<ul>
-<li><p>도로명주소와 함께, 동/읍/면이 함께 포함되어 있음</p></li>
-<li><p>서울특별시 관악구 남현동 남현3길 78 6층</p></li>
-</ul>
-<p>출력주소 예제 #3</p>
-<p><strong><em>어케 하는게 좋을려나, 고민중</em></strong></p>
+</div>
 </div>
 <div id="프로젝트를-시작하게된-이유는" class="section level1">
 <h1 class="hasAnchor">
