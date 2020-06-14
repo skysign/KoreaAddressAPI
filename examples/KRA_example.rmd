@@ -11,7 +11,7 @@ dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
 dfDirtyJuso = data.frame(dirtyJuso)
 dfDirtyJuso
 
-dfCleaned = KoreaAddressParse(dfDirtyJuso)
+dfCleaned = KAParse(dfDirtyJuso)
 dfCleaned
 ```
 
