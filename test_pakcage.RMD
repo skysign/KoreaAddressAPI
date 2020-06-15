@@ -4,6 +4,13 @@ remotes::install_github("ropensci/travis")
 ```
 
 ``` {r}
+travis::browse_travis_token()
+```
+
+``` {r}
+usethis::edit_r_environ()
+```
+``` {r}
 tic::use_tic()
 ```
 
