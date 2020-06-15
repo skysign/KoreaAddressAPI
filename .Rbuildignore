@@ -3,3 +3,5 @@
 ^pkgdown$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^appveyor\.yml$
+^tic\.R$

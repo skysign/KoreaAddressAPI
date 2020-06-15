@@ -1,10 +1,18 @@
 ``` {r}
-usethis::use_pkgdown()
+remotes::install_github("ropensci/tic")
+remotes::install_github("ropensci/travis")
 ```
 
 ``` {r}
-devtools::document()
-pkgdown::build_site()
+tic::use_tic()
+```
+
+``` {r}
+
+```
+
+``` {r}
+
 ```
 
 ``` {r}
@@ -13,4 +21,7 @@ usethis::use_appveyor()
 
 ``` {r}
 covr::codecov()
+
+devtools::document()
+pkgdown::build_site()
 ```
