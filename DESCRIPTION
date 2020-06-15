@@ -19,7 +19,8 @@ Author: ByeongKeon Kim [aut, cre],
     lady-mama [aut],
     Seongil Park [aut]
 Maintainer: ByeongKeon Kim <skysign@gmail.com>
-Depends: R (>= 3.6.3), dplyr, tokenizers, stringr
+Depends: R (>= 3.6.3)
+Imports: dplyr, tokenizers, stringr
 Suggests: MASS
 Description: This package is to validate/parse/correct Korea address
     by utilizing addresses which are provided https://www.juso.go.kr

@@ -15,7 +15,8 @@ tic::use_tic()
 ```
 
 ``` {r}
-
+# check Package build error
+devtools::check_win_devel()
 ```
 
 ``` {r}
