@@ -1,10 +1,12 @@
-^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^appveyor\.yml$
 ^tic\.R$
-.travis.yml
-_pkgdown.yml
-appveyor.yml
+^appveyor\.yml$
+^\.travis\.yml$
+^_pkgdown\.yml$
+^LICENSE$
+^examples$
+^developing$

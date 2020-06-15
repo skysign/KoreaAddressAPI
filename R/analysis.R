@@ -1,5 +1,6 @@
 library(stringr)
 
+#' @importFrom stringr str_match
 ParentChild_parent <- function(str, parent, child) {
   pattern = paste0(parent, "(?=[\\s\\|\\t]?", child, ")")
   #print(pattern)
@@ -11,6 +12,7 @@ ParentChild_parent <- function(str, parent, child) {
   return(match)
 }
 
+#' @importFrom stringr str_match
 ParentChild_Child <- function(str, parent, child) {
   pattern = paste0("(?<=", parent, "[\\s\\|\\t]?)", child)
   #print(pattern)

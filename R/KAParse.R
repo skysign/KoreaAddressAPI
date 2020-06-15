@@ -1,4 +1,4 @@
-recJuso <- function(dirtyJuso, idx, df, columns, dfs, fnsRec) {
+recJuso <- function(dirtyJuso, idx, df, columns, dfsRec, fnsRec) {
   if(idx > length(fnsRec)) {
     # printf('length(fnsRec) %d', length(fnsRec))
     return(df)
@@ -52,7 +52,7 @@ cleanJuso <- function(dirtyJuso) {
 }
 
 #' @export
-KAParse <- function(dfDirtyJuso) {
+KAParse <- function(dfDirtyJuso, columnName) {
   df = data.frame(dfDirtyJuso)
   
   columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong')
@@ -61,14 +61,14 @@ KAParse <- function(dfDirtyJuso) {
   }
   
   for(idxRow in 1:nrow(dfDirtyJuso)) {
-    dirtyJuso = dfDirtyJuso$dirtyJuso[idxRow]
+    dirtyJuso = dfDirtyJuso[idxRow, columnName]
     dirtyJuso = as.character(dirtyJuso)
-    dirtyJuso = modified_juso(dirtyJuso)
     
     # printf('KoreaAddressAPI index(%d) %s', idxRow, dirtyJuso)
+    dirtyJuso = modified_juso(dirtyJuso)
     
     dfCleaned = cleanJuso(dirtyJuso)
-    
+
     for(column in columns) {
       df[idxRow, column] = dfCleaned[1, column];
     }

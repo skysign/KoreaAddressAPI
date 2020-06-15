@@ -6,7 +6,7 @@
 KAParse(dfDirtyJuso)
 }
 \arguments{
-\item{dfInput}{Input data frame}
+\item{dfDirtyJuso}{Input data frame}
 
 \item{columnName}{column name of input data frame, which will be parsed}
 }
@@ -30,7 +30,7 @@ dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
 dfDirtyJuso = data.frame(dirtyJuso)
 dfDirtyJuso
 
-dfCleaned = KAParse(dfDirtyJuso)
+dfCleaned = KAParse(dfDirtyJuso, 'dirtyJuso')
 dfCleaned
 
 }
