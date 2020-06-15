@@ -8,5 +8,9 @@ pkgdown::build_site()
 ```
 
 ``` {r}
+usethis::use_appveyor()
+```
 
+``` {r}
+covr::codecov()
 ```
