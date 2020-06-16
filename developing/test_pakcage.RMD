@@ -12,6 +12,7 @@ usethis::edit_r_environ()
 ```
 ``` {r}
 tic::use_tic()
+tic::deploy()
 ```
 
 ``` {r}
