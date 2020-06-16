@@ -49,19 +49,14 @@ after_failure:
   - R -q -e 'tic::after_failure()'
 before_deploy:
   - R -q -e 'tic::before_deploy()'
+  Rscript -e 'remotes::install_cran("pkgdown")'
 deploy:
   provider: script
   script: R -q -e 'tic::deploy()'
+  script: Rscript -e 'pkgdown::deploy_site_github()'
   on:
-    all_branches: true
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  local-dir: docs
-  on:
-    branch: gh-pages
+    branches: gh-pages
+
 after_deploy:
   - R -q -e 'tic::after_deploy()'
 after_script:
