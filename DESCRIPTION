@@ -8,7 +8,7 @@ Authors@R: c(person("ByeongKeon", "Kim", role = c("aut", "cre"),
                 email = "borajeong88@gmail.com"),
             person("Jayoung", "Kim", role = "aut",
                 email = "jayoung82.kim@gmail.com"),
-            person("lady-mama", "", role = "aut",
+            person("Moon S.", "Kim", role = "aut",
                 email = "telesoft2000@gmail.com"),
             person("Seongil", "Park", role = "aut",
                 email = "zihado@gmail.com")
@@ -16,7 +16,7 @@ Authors@R: c(person("ByeongKeon", "Kim", role = c("aut", "cre"),
 Author: ByeongKeon Kim [aut, cre],
     borajeong88 [aut],
     Jayoung Kim [aut],
-    lady-mama [aut],
+    Moon S. Kim [aut],
     Seongil Park [aut]
 Maintainer: ByeongKeon Kim <skysign@gmail.com>
 Depends: R (>= 3.6.0)

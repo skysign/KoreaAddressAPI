@@ -23,14 +23,18 @@ If we can't find appropriated administrative area, we mark 'x'
 to its corresponding column.
 }
 \examples{
+# Please visit below to see the correct example.
+# https://github.com/skysign/KoreaAddressAPI/blob/master/examples/KRA_example.rmd
+#
+# To pass build without error, we should not describe anything in Korean, here.
+
 library(KoreaAddressAPI)
 
-dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
-              '서울특별시 없는구 자당동')
+dirtyJuso = c('',
+              '')
 dfDirtyJuso = data.frame(dirtyJuso)
 dfDirtyJuso
 
 dfCleaned = KAParse(dfDirtyJuso, 'dirtyJuso')
 dfCleaned
-
 }
