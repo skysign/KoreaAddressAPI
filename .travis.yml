@@ -54,6 +54,14 @@ deploy:
   script: R -q -e 'tic::deploy()'
   on:
     all_branches: true
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: docs
+  on:
+    branch: gh-pages
 after_deploy:
   - R -q -e 'tic::after_deploy()'
 after_script:
