@@ -1,6 +1,5 @@
 # 한국주소API (KoreaAddressAPI)
 R 에서 한국 주소를 다루기 위한 Package 입니다.
-
 ```
 library(KoreaAddressAPI)
 
@@ -18,6 +17,11 @@ dfCleaned
 #> 1 서울특별시 \n\t   동작구 | |   사당동 서울특별시        동작구                      사당동
 #> 2              서울특별시 없는구 자당동          x             x                           x
 ```
+[![Build Status](https://travis-ci.org/skysign/KoreaAddressAPI.svg?branch=master)](https://travis-ci.org/skysign/KoreaAddressAPI)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/skysign/KoreaAddressAPI?branch=master&svg=true)](https://ci.appveyor.com/project/skysign/KoreaAddressAPI)
+[![GitHub stars](https://img.shields.io/github/stars/skysign/KoreaAddressAPI.svg)](https://github.com/skysign/KoreaAddressAPI/stargazers)
+[![GitHub license](https://img.shields.io/github/license/skysign/KoreaAddressAPI.svg)](https://github.com/skysign/KoreaAddressAPI/blob/master/LICENSE)
+
 # 새소식
 ## 0.1.0 릴리즈
 - KAPrase()
