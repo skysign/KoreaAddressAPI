@@ -16,9 +16,6 @@ according its hierarchy such as 'SiDoMyeong', 'SiGunGuMyeong' and
 In order to parse areas from wide to narrow, recursively, relative areas
 are described as parent/child relationship like tree.
 }
-\usage{
-data(dfsRec)
-}
 \format{
   The format is:
 List of 3
