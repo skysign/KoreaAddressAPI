@@ -48,7 +48,7 @@ cleanJuso <- function(dirtyJuso) {
   }
   
   idx = 1;
-  return(recJuso(dirtyJuso, idx, df, columns, dfsRec, fnsRec))
+  return(recJuso(dirtyJuso, idx, df, columns, KoreaAddressAPI::dfsRec, fnsRec))
 }
 
 #' @export

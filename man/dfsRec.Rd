@@ -43,9 +43,6 @@ Continued to more narrow administrative area
 \source{
 https://www.juso.go.kr
 }
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
 \examples{
 data(dfsRec)
 }
