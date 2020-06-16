@@ -3,7 +3,7 @@
 \alias{KAParse}
 \title{KAParse: Parse Korea address as per areas}
 \usage{
-KAParse(dfDirtyJuso)
+dfCleaned = KAParse(dfDirtyJuso, columnName)
 }
 \arguments{
 \item{dfDirtyJuso}{Input data frame}

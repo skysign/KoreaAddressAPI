@@ -25,10 +25,15 @@ pkgdown::build_site()
 ```
 
 ``` {r}
+# NAMESPACE 만들어줌줌
+devtools::document()
+```
+
+``` {r}
 usethis::use_appveyor()
 ```
 
 ``` {r}
-# NAMESPACE 만들어줌줌
-devtools::document()
+install.packages('pdflatex', force = TRUE)
 ```
+
