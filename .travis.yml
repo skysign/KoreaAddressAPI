@@ -53,9 +53,8 @@ before_deploy:
 deploy:
   provider: script
   script: R -q -e 'tic::deploy()'
-  script: R -e 'pkgdown::deploy_site_github()'
+#  script: R -e 'pkgdown::deploy_site_github()'
   skip_cleanup: true
-
 after_deploy:
   - R -q -e 'tic::after_deploy()'
 after_script:
