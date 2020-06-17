@@ -49,11 +49,11 @@ after_failure:
   - R -q -e 'tic::after_failure()'
 before_deploy:
   - R -q -e 'tic::before_deploy()'
-  Rscript -e 'remotes::install_cran("pkgdown")'
+  - R -e 'remotes::install_cran("pkgdown")'
 deploy:
   provider: script
   script: R -q -e 'tic::deploy()'
-  script: Rscript -e 'pkgdown::deploy_site_github()'
+  script: R -e 'pkgdown::deploy_site_github()'
   skip_cleanup: true
 
 after_deploy:
