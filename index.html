@@ -73,11 +73,11 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="한국주소api-koreaaddressapi" class="section level1">
+<div id="api-koreaaddressapi" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#%ED%95%9C%EA%B5%AD%EC%A3%BC%EC%86%8Capi-koreaaddressapi" class="anchor"></a>한국주소API (KoreaAddressAPI)</h1></div>
+<a href="#api-koreaaddressapi" class="anchor"></a>한국주소API (KoreaAddressAPI)</h1></div>
 <p>R 에서 한국 주소를 다루기 위한 Package 입니다.</p>
-<pre><code>library(KoreaAddressAPI)
+<pre><code><a href="https://rdrr.io/pkg/KoreaAddressAPI/man">library(KoreaAddressAPI)
 
 dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
               '서울특별시 없는구 자당동')
@@ -91,15 +91,13 @@ dfCleaned = KAParse(dfDirtyJuso)
 dfCleaned
 #&gt;                               dirtyJuso SiDoMyeong SiGunGuMyeong BeopJeongEupMyeonDongMyeong
 #&gt; 1 서울특별시 \n\t   동작구 | |   사당동 서울특별시        동작구                      사당동
-#&gt; 2              서울특별시 없는구 자당동          x             x                           x</code></pre>
+#&gt; 2              서울특별시 없는구 자당동          x             x                           x</a></code></pre>
 <p><a href="https://travis-ci.org/skysign/KoreaAddressAPI"><img src="https://travis-ci.org/skysign/KoreaAddressAPI.svg?branch=master" alt="Build Status"></a> <a href="https://ci.appveyor.com/project/skysign/KoreaAddressAPI"><img src="https://ci.appveyor.com/api/projects/status/github/skysign/KoreaAddressAPI?branch=master&amp;svg=true" alt="AppVeyor build status"></a> <a href="https://github.com/skysign/KoreaAddressAPI/stargazers"><img src="https://img.shields.io/github/stars/skysign/KoreaAddressAPI.svg" alt="GitHub stars"></a> <a href="https://github.com/skysign/KoreaAddressAPI/blob/master/LICENSE"><img src="https://img.shields.io/github/license/skysign/KoreaAddressAPI.svg" alt="GitHub license"></a></p>
 </div>
-<div id="새소식" class="section level1">
-<h1 class="hasAnchor">
-<a href="#%EC%83%88%EC%86%8C%EC%8B%9D" class="anchor"></a>새소식</h1>
-<div id="010-릴리즈" class="section level2">
-<h2 class="hasAnchor">
-<a href="#010-%EB%A6%B4%EB%A6%AC%EC%A6%88" class="anchor"></a>0.1.0 릴리즈</h2>
+<div class="section level1">
+<h1>새소식</h1>
+<div class="section level2">
+<h2>0.1.0 릴리즈</h2>
 <ul>
 <li>KAPrase()</li>
 <li>서울시 주소만 지원</li>
@@ -107,9 +105,9 @@ dfCleaned
 </ul>
 </div>
 </div>
-<div id="프로젝트를-시작하게된-이유는" class="section level1">
+<div id="----" class="section level1">
 <h1 class="hasAnchor">
-<a href="#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%A5%BC-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B2%8C%EB%90%9C-%EC%9D%B4%EC%9C%A0%EB%8A%94" class="anchor"></a>프로젝트를 시작하게된 이유는..?</h1>
+<a href="#----" class="anchor"></a>프로젝트를 시작하게된 이유는..?</h1>
 <p>이 책으로 ↓ <a href="https://skysign.github.io/DAT/">DAT스터디</a>를 진행하고 있었습니다. <br><a href="https://book.naver.com/bookdb/book_detail.nhn?bid=12256508" class="uri">https://book.naver.com/bookdb/book_detail.nhn?bid=12256508</a></p>
 <ul>
 <li>서로 열씸히 공부하였지만, 아직 R 코드는 익숙하지 않았어요</li>
@@ -123,9 +121,9 @@ dfCleaned
 <div id="faq" class="section level1">
 <h1 class="hasAnchor">
 <a href="#faq" class="anchor"></a>FAQ</h1>
-<div id="한국주소-rest-api가-있지-않을까" class="section level2">
+<div id="-rest-api--" class="section level2">
 <h2 class="hasAnchor">
-<a href="#%ED%95%9C%EA%B5%AD%EC%A3%BC%EC%86%8C-rest-api%EA%B0%80-%EC%9E%88%EC%A7%80-%EC%95%8A%EC%9D%84%EA%B9%8C" class="anchor"></a>한국주소 rest API가 있지 않을까?</h2>
+<a href="#-rest-api--" class="anchor"></a>한국주소 rest API가 있지 않을까?</h2>
 <p>한국주소 rest API가 없다는걸 최근에 알게 되었어요.</p>
 <ul>
 <li>다음에서 제공하는 주소API는 매우 좋지만, rest API가 없어요. 자세한 내용은 <a href="https://github.com/daumPostcode/QnA#4-rest-api%EB%A1%9C%EB%8F%84-%EC%A0%9C%EA%B3%B5%ED%95%98%EA%B3%A0-%EC%9E%88%EB%82%98%EC%9A%94">여기 참고</a>하세요</li>
@@ -134,27 +132,27 @@ dfCleaned
 </ul>
 <p><strong>결론! 없으면 만든다. :-)</strong></p>
 </div>
-<div id="jusogokr에서-제공하는-데이터의-저작권에-따라-사용에-제한이-있지-않을까요" class="section level2">
+<div id="juso-go-kr--------" class="section level2">
 <h2 class="hasAnchor">
-<a href="#jusogokr%EC%97%90%EC%84%9C-%EC%A0%9C%EA%B3%B5%ED%95%98%EB%8A%94-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98-%EC%A0%80%EC%9E%91%EA%B6%8C%EC%97%90-%EB%94%B0%EB%9D%BC-%EC%82%AC%EC%9A%A9%EC%97%90-%EC%A0%9C%ED%95%9C%EC%9D%B4-%EC%9E%88%EC%A7%80-%EC%95%8A%EC%9D%84%EA%B9%8C%EC%9A%94" class="anchor"></a>juso.go.kr에서 제공하는 데이터의 저작권에 따라 사용에 제한이 있지 않을까요?</h2>
+<a href="#juso-go-kr--------" class="anchor"></a>juso.go.kr에서 제공하는 데이터의 저작권에 따라 사용에 제한이 있지 않을까요?</h2>
 <p><strong>공공데이터법에 근거하여 공공데이터는 누구나 이용가능하고, 영리 목적의 이용을 포함한 자유로운 활용이 보장되므로 목적에 맞게 활용하시기 바랍니다.</strong></p>
 <ul>
 <li>이렇게 답변 되어 있습니다. ^^</li>
-<li>출처 : <a href="https://www.juso.go.kr/addrlink/DevCenterQABoardDetail.do?mgtSn=36836&amp;currentPage=1&amp;searchType=subject&amp;keyword=%EC%A0%80%EC%9E%91" class="uri">https://www.juso.go.kr/addrlink/DevCenterQABoardDetail.do?mgtSn=36836&amp;currentPage=1&amp;searchType=subject&amp;keyword=%EC%A0%80%EC%9E%91</a>
+<li>출처 : <a href="https://www.juso.go.kr/addrlink/DevCenterQABoardDetail.do?mgtSn=36836&amp;currentPage=1&amp;searchType=subject&amp;keyword=%EC%A0%80%EC%9E%91">https://www.juso.go.kr/addrlink/DevCenterQABoardDetail.do?mgtSn=36836&amp;currentPage=1&amp;searchType=subject&amp;keyword=%EC%A0%80%EC%9E%91</a>
 </li>
 </ul>
 <hr>
 </div>
 </div>
-<div id="만든-사람들" class="section level1">
+<div id="-" class="section level1">
 <h1 class="hasAnchor">
-<a href="#%EB%A7%8C%EB%93%A0-%EC%82%AC%EB%9E%8C%EB%93%A4" class="anchor"></a>만든 사람들</h1>
+<a href="#-" class="anchor"></a>만든 사람들</h1>
 <p>한국주소API(KoreaAddressAPI)는 DAT스터디에서 개발하였습니다. <a href="https://skysign.github.io/DAT" class="uri">https://skysign.github.io/DAT</a> ← 여기 참고하세요</p>
 <hr>
 </div>
-<div id="데이터-출처" class="section level1">
+<div id="-" class="section level1">
 <h1 class="hasAnchor">
-<a href="#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%B6%9C%EC%B2%98" class="anchor"></a>데이터 출처</h1>
+<a href="#-" class="anchor"></a>데이터 출처</h1>
 <p>이 프로젝트에 사용된 모든 주소/도로명/건물/상세주소 등의 데이터는 <a href="http://www.juso.go.kr/" class="uri">http://www.juso.go.kr/</a> 에서 제공하는 데이터를 사용하였습니다.</p>
 <hr>
 </div>
