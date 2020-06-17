@@ -54,8 +54,7 @@ deploy:
   provider: script
   script: R -q -e 'tic::deploy()'
   script: Rscript -e 'pkgdown::deploy_site_github()'
-  on:
-    branches: gh-pages
+  skip_cleanup: true
 
 after_deploy:
   - R -q -e 'tic::after_deploy()'

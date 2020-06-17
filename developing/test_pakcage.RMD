@@ -31,6 +31,10 @@ devtools::document()
 ```
 
 ``` {r}
+pkgdown::deploy_site_github()
+```
+
+``` {r}
 usethis::use_appveyor()
 ```
 
@@ -38,3 +42,31 @@ usethis::use_appveyor()
 install.packages('pdflatex', force = TRUE)
 ```
 
+
+``` {r}
+travis::use_travis_deploy()
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
