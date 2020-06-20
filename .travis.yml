@@ -49,7 +49,7 @@ after_failure:
   - R -q -e 'tic::after_failure()'
 before_deploy:
   - R -q -e 'tic::before_deploy()'
-  - R -e 'remotes::install_cran("pkgdown")'
+#  - R -e 'remotes::install_cran("pkgdown")'
 deploy:
   provider: script
   script: R -q -e 'tic::deploy()'

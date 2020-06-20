@@ -21,7 +21,10 @@ Author: ByeongKeon Kim [aut, cre],
 Maintainer: ByeongKeon Kim <skysign@gmail.com>
 Depends: R (>= 3.6.0)
 Imports: dplyr, tokenizers, stringr
-Suggests: MASS
+Suggests: 
+    MASS,
+    knitr,
+    rmarkdown
 Description: This package is to parse/validate/correct Korea address by utilizing released whole addresses of https://www.juso.go.kr.
 License: Apache License 2.0
 LazyData: true
@@ -29,3 +32,4 @@ Encoding: UTF-8
 URL: https://skysign.github.io/KoreaAddressAPI
 BugReports: https://github.com/skysign/KoreaAddressAPI/issues
 RoxygenNote: 7.1.0
+VignetteBuilder: knitr
