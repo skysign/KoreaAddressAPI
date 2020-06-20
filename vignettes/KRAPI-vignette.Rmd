@@ -4,7 +4,6 @@ author: "ByeongKeon Kim"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette
-    fig_caption: yes
 vignette: >
   %\VignetteIndexEntry{KoreaAddressAPI package vignette}
   %\VignetteEngine{knitr::rmarkdown}

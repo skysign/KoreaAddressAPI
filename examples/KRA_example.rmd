@@ -1,6 +1,13 @@
 ```{r}
-# devtools::install_github('skysign/KoreaAddressAPI', force = TRUE)
-devtools::install_local('C:/work_git/KoreaAddressAPI', force = TRUE)
+devtools::install_github(
+  'skysign/KoreaAddressAPI',
+  build_vignettes = TRUE,
+  force = TRUE)
+
+# devtools::install_local(
+#   'C:/work_git/KoreaAddressAPI',
+#   build_vignettes = TRUE,
+#   force = TRUE)
 ```
 
 
