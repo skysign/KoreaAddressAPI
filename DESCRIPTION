@@ -20,7 +20,7 @@ Author: ByeongKeon Kim [aut, cre],
     Seongil Park [aut]
 Maintainer: ByeongKeon Kim <skysign@gmail.com>
 Depends: R (>= 3.6.0)
-Imports: dplyr, tokenizers, stringr
+Imports: dplyr, tokenizers, stringr, devltools
 Suggests: 
     MASS,
     knitr,
