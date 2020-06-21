@@ -2,7 +2,10 @@
 remotes::install_github("ropensci/tic")
 remotes::install_github("ropensci/travis")
 
-install.packages("rmarkdown") 
+install.packages("rmarkdown")
+install.packages("backports")
+
+install.packages("testthat") 
 ```
 
 ``` {r}
@@ -75,7 +78,8 @@ travis::use_travis_deploy()
 ```
 
 ``` {r}
-
+library(devtools)
+devtools::test_coverage()
 ```
 
 ``` {r}
@@ -83,11 +87,18 @@ devtools::use_vignette("my-vignette")
 ```
 
 ``` {r}
-
+usethis::use_testthat()
+usethis::use_test()
 ```
 
 ``` {r}
+library(testthat)
+library(KoreaAddressAPI)
 
+test_check("KoreaAddressAPI")
+
+# # testthat::test_check("./tests")
+# testthat::testing_package()
 ```
 
 ``` {r}
@@ -98,4 +109,20 @@ Sys.getenv("R_LIBS")
 
 ``` {r}
 
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
+
+``` {r}
+devtools::test()
 ```
