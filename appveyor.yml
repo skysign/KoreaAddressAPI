@@ -1,6 +1,10 @@
 ## tic Appveyor CI template: windows
 ## revision date: 2020-05-09
 
+environment:
+  global:
+    USE_RTOOLS: true
+
 # Download script file from GitHub
 init:
   ps: |
