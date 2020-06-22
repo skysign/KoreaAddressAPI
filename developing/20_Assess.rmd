@@ -1,7 +1,8 @@
 ```{r setup, include=FALSE}
-source(file.path(getwd(), '..', "01 common", "init.R"))
-source(file.path(getwd(), '..', "30 Analysis", "analysis.R"))
-source(file.path(getwd(), '..', "90 Utility", "utility.R"))
+#source(file.path(getwd(), '..', "01 common", "init.R"))
+#source(file.path(getwd(), '..', "30 Analysis", "analysis.R"))
+#source(file.path(getwd(), '..', "90 Utility", "utility.R"))
+source(file.path(getwd(), '.', ".", "utility.R"))
 ```
 
 ```{r libraries, include=FALSE}
