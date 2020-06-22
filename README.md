@@ -19,6 +19,7 @@ dfCleaned
 ```
 [![Build Status](https://travis-ci.org/skysign/KoreaAddressAPI.svg?branch=master)](https://travis-ci.org/skysign/KoreaAddressAPI)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/skysign/KoreaAddressAPI?branch=master&svg=true)](https://ci.appveyor.com/project/skysign/KoreaAddressAPI)
+[![codecov](https://codecov.io/github/skysign/KoreaAddressAPI/branch/master/graphs/badge.svg)](https://codecov.io/github/skysign/KoreaAddressAPI)
 [![GitHub stars](https://img.shields.io/github/stars/skysign/KoreaAddressAPI.svg)](https://github.com/skysign/KoreaAddressAPI/stargazers)
 [![GitHub license](https://img.shields.io/github/license/skysign/KoreaAddressAPI.svg)](https://github.com/skysign/KoreaAddressAPI/blob/master/LICENSE)
 
