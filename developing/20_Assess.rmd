@@ -48,8 +48,8 @@ df2['code_root'] = '0'
 df2['code_Si'] = substr(df2$BeopJeongDongKoDeu, 1, 2) # 법정동 코드에서 시 분리
 df2['code_Gu'] = substr(df2$BeopJeongDongKoDeu, 3, 5) # 법정동 코드에서 구 분리
 df2['code_Dong'] = substr(df2$BeopJeongDongKoDeu, 6, 8) # 법정동 코드에서 동 분리
-df2['code_Beonji'] = paste(df2$JiBeonBonBeon.BeonJi, df2$JiBeonBuBeon.Ho, sep="-")
-df2['code_Beonji_tmp'] = paste(df2$BeopJeongDongKoDeu, df2$code_Beonji, sep=" ")
+df2['code_Beonji'] = paste(df2$JiBeonBonBeon.BeonJi, df2$JiBeonBuBeon.Ho, sep="-") # 번지 코드는 본번,부번을 - 로 연결
+df2['code_Beonji_tmp'] = paste(df2$BeopJeongDongKoDeu, df2$code_Beonji, sep=" ") # 법정동코드와 번지를 합침
 head(df2)
 ```
 
