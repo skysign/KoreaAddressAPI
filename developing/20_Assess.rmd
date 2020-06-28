@@ -2,7 +2,10 @@
 #source(file.path(getwd(), '..', "01 common", "init.R"))
 #source(file.path(getwd(), '..', "30 Analysis", "analysis.R"))
 #source(file.path(getwd(), '..', "90 Utility", "utility.R"))
-source(file.path(getwd(), '.', ".", "utility.R"))
+#source(file.path(getwd(), '.', ".", "utility.R"))
+library(tokenizers)
+library(stringr)
+
 ```
 
 ```{r libraries, include=FALSE}
@@ -12,7 +15,8 @@ library(dplyr)
 # 주소 데이터 불러오기
 
 ```{r}
-df = read.csv("../cleaned/202004/JiBeon_Korea.csv")
+#df = read.csv("../cleaned/202004/JiBeon_Korea.csv",encoding = "cp949")
+df = read.csv("code/JiBeon_Korea.csv",sep=",")
 
 head(df)
 ```
@@ -30,11 +34,11 @@ df$JiBeonBuBeon.Ho = as.character(df$JiBeonBuBeon.Ho) #지번부번
 head(df)
 ```
 
-## 코드,시,군,동만 분리하여 데이터 프레임 생성
+## 코드,시,군,동, 번지만 분리하여 데이터 프레임 생성
 
 ```{r}
 columns = c('BeopJeongDongKoDeu', 'SiDoMyeong', 'SiGunGuMyeong',
-            'BeopJeongEupMyeonDongMyeong')
+            'BeopJeongEupMyeonDongMyeong','JiBeonBonBeon.BeonJi','JiBeonBuBeon.Ho')
 df2 <- df[columns]
 head(df2)
 ```
@@ -44,7 +48,8 @@ df2['code_root'] = '0'
 df2['code_Si'] = substr(df2$BeopJeongDongKoDeu, 1, 2) # 법정동 코드에서 시 분리
 df2['code_Gu'] = substr(df2$BeopJeongDongKoDeu, 3, 5) # 법정동 코드에서 구 분리
 df2['code_Dong'] = substr(df2$BeopJeongDongKoDeu, 6, 8) # 법정동 코드에서 동 분리
-
+df2['code_Beonji'] = paste(df2$JiBeonBonBeon.BeonJi, df2$JiBeonBuBeon.Ho, sep="-")
+df2['code_Beonji_tmp'] = paste(df2$BeopJeongDongKoDeu, df2$code_Beonji, sep=" ")
 head(df2)
 ```
 
@@ -53,30 +58,35 @@ head(df2)
 siColumns = c('code_root', 'code_Si', 'SiDoMyeong')
 guColumns = c('code_Si', 'code_Gu', 'SiGunGuMyeong')
 dongColumns = c('code_Gu', 'code_Dong', 'BeopJeongEupMyeonDongMyeong')
+beonjiColumns = c('code_Dong','code_Beonji','BeopJeongEupMyeonDongMyeong')
 
 dfSi = df2[siColumns]
 dfGu = df2[guColumns]
 dfDong = df2[dongColumns]
+dfBeonji = df2[beonjiColumns]
 
 dfSi = unique(dfSi)
 dfGu = unique(dfGu)
 dfDong = unique(dfDong)
+dfBeonji = unique(dfBeonji)
 
 newColumns = c('parent', 'child', 'HaengJeongGuYeok')
 
 colnames(dfSi) = newColumns
 colnames(dfGu) = newColumns
 colnames(dfDong) = newColumns
+colnames(dfBeonji) = newColumns
 
 head(dfSi)
 head(dfGu)
 head(dfDong)
+head(dfBeonji)
 ```
 
 # R package에 넣을 데이터프레임 rda에 저장
 
 ```{r}
-dfsRec = list(dfSi, dfGu, dfDong)
+dfsRec = list(dfSi, dfGu, dfDong, dfBeonji)
 save(dfsRec, file = '../data/dfs.rda')
 ```
 
