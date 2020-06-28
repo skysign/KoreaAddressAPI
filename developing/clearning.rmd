@@ -5,10 +5,11 @@ library(dplyr)
 ```{r}
 pathPrefix = '../juso.go.kr/'
 YYYYMMPrefix = '202004_주소DB_전체분/'
-pathPostFix = '지번_서울특별시.txt'
-path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
+pathPostFix = 'code/지번_서울특별시.txt'
+path = paste0(pathPostFix)
 
-seoul <- read.table(path, sep = '|')
+#seoul <- read.table(path, sep = '|')
+seoul <- read.table('code/지번_서울특별시.txt', sep = '|',encoding = "cp949",fileEncoding = "euc-kr")
 
 seoul <- rename(seoul, "GwanRiBeonHo"="V1",
                 "IlLyeonBeonHo"="V2",
@@ -26,10 +27,10 @@ head(seoul)
 ```
 
 ```{r}
-pathPrefix = '../cleaned/'
-YYYYMMPrefix = '202004/'
-pathPostFix = 'JiBeon_Korea.csv'
-path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
+#pathPrefix = '../cleaned/'
+#YYYYMMPrefix = '202004/'
+pathPostFix = 'code/JiBeon_Korea.csv'
+path = paste0(pathPostFix)
 
 write.csv(seoul, path, row.names = FALSE, fileEncoding = 'UTF-8')
 ```
