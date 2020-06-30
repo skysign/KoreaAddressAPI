@@ -1,13 +1,3 @@
-```{r setup, include=FALSE}
-#source(file.path(getwd(), '..', "01 common", "init.R"))
-#source(file.path(getwd(), '..', "30 Analysis", "analysis.R"))
-#source(file.path(getwd(), '..', "90 Utility", "utility.R"))
-#source(file.path(getwd(), '.', ".", "utility.R"))
-library(tokenizers)
-library(stringr)
-
-```
-
 ```{r libraries, include=FALSE}
 library(dplyr)
 ```
@@ -15,8 +5,11 @@ library(dplyr)
 # 주소 데이터 불러오기
 
 ```{r}
-#df = read.csv("../cleaned/202004/JiBeon_Korea.csv",encoding = "cp949")
-df = read.csv("code/JiBeon_Korea.csv",sep=",")
+pathPrefix = '../cleaned/'
+YYYYMMPrefix = '202004/'
+pathPostFix = 'JiBeon_Korea.csv'
+path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
+df = read.csv(path, fileEncoding = 'UTF-8')
 
 head(df)
 ```
@@ -27,9 +20,8 @@ df$BeopJeongDongKoDeu = as.character(df$BeopJeongDongKoDeu) # 법정동코드 10
 df$SiDoMyeong = as.character(df$SiDoMyeong) #시, 도
 df$SiGunGuMyeong = as.character(df$SiGunGuMyeong) #구
 df$BeopJeongEupMyeonDongMyeong = as.character(df$BeopJeongEupMyeonDongMyeong) #동
-
-df$JiBeonBonBeon.BeonJi = as.character(df$JiBeonBonBeon.BeonJi) #지번본번
-df$JiBeonBuBeon.Ho = as.character(df$JiBeonBuBeon.Ho) #지번부번
+df$JiBeonBonBeon = as.character(df$JiBeonBonBeon.BeonJi) #지번본번
+df$JiBeonBuBeon = as.character(df$JiBeonBuBeon.Ho) #지번부번
 
 head(df)
 ```
@@ -38,7 +30,7 @@ head(df)
 
 ```{r}
 columns = c('BeopJeongDongKoDeu', 'SiDoMyeong', 'SiGunGuMyeong',
-            'BeopJeongEupMyeonDongMyeong','JiBeonBonBeon.BeonJi','JiBeonBuBeon.Ho')
+            'BeopJeongEupMyeonDongMyeong','JiBeonBonBeon','JiBeonBuBeon')
 df2 <- df[columns]
 head(df2)
 ```
@@ -48,8 +40,8 @@ df2['code_root'] = '0'
 df2['code_Si'] = substr(df2$BeopJeongDongKoDeu, 1, 2) # 법정동 코드에서 시 분리
 df2['code_Gu'] = substr(df2$BeopJeongDongKoDeu, 3, 5) # 법정동 코드에서 구 분리
 df2['code_Dong'] = substr(df2$BeopJeongDongKoDeu, 6, 8) # 법정동 코드에서 동 분리
-df2['code_Beonji'] = paste(df2$JiBeonBonBeon.BeonJi, df2$JiBeonBuBeon.Ho, sep="-") # 번지 코드는 본번,부번을 - 로 연결
-df2['code_Beonji_tmp'] = paste(df2$BeopJeongDongKoDeu, df2$code_Beonji, sep=" ") # 법정동코드와 번지를 합침
+df2['code_BonBeon'] = paste0(df2$code_Dong, df2$JiBeonBonBeon) # 법정동 코드 + 지번본번
+df2['code_BuBeon'] = df2$JiBeonBuBeon # 법정동 코드 + 지번본번 + 지번부번
 head(df2)
 ```
 
@@ -58,128 +50,43 @@ head(df2)
 siColumns = c('code_root', 'code_Si', 'SiDoMyeong')
 guColumns = c('code_Si', 'code_Gu', 'SiGunGuMyeong')
 dongColumns = c('code_Gu', 'code_Dong', 'BeopJeongEupMyeonDongMyeong')
-beonjiColumns = c('code_Dong','code_Beonji','BeopJeongEupMyeonDongMyeong')
+bonBeonColumns = c('code_Dong','code_BonBeon','JiBeonBonBeon')
+buBeonColumns = c('code_BonBeon','code_BuBeon','JiBeonBuBeon')
 
 dfSi = df2[siColumns]
 dfGu = df2[guColumns]
 dfDong = df2[dongColumns]
-dfBeonji = df2[beonjiColumns]
+dfBonBeon = df2[bonBeonColumns]
+dfBuBeon = df2[buBeonColumns]
 
 dfSi = unique(dfSi)
 dfGu = unique(dfGu)
 dfDong = unique(dfDong)
-dfBeonji = unique(dfBeonji)
+dfBonBeon = unique(dfBonBeon)
+dfBuBeon = unique(dfBuBeon)
 
 newColumns = c('parent', 'child', 'HaengJeongGuYeok')
 
 colnames(dfSi) = newColumns
 colnames(dfGu) = newColumns
 colnames(dfDong) = newColumns
-colnames(dfBeonji) = newColumns
+colnames(dfBonBeon) = newColumns
+colnames(dfBuBeon) = newColumns
 
 head(dfSi)
 head(dfGu)
 head(dfDong)
-head(dfBeonji)
+head(dfBonBeon)
+head(dfBuBeon)
 ```
 
 # R package에 넣을 데이터프레임 rda에 저장
 
 ```{r}
-dfsRec = list(dfSi, dfGu, dfDong, dfBeonji)
-save(dfsRec, file = '../data/dfs.rda')
+dfsRec = list(dfSi, dfGu, dfDong, dfBonBeon, dfBuBeon)
+pathPrefix = '../data/'
+pathPostFix = 'dfs.rda'
+path = paste0(pathPrefix, pathPostFix)
+
+save(dfsRec, file = path, compress = TRUE)
 ```
-
-# 만들고 있는 API 데모
-
-```{r}
-fnsRec = list(SiGu, GuDong)
-
-recJuso <- function(dirtyJuso, idx, df, columns, dfs, fnRec) {
-  if(idx > length(fnsRec)) {
-    printf('length(fnsRec) %d', length(fnsRec))
-    return(df)
-  }
-
-  dfParent = dfsRec[[idx]]
-  dfChildren = dfsRec[[idx+1]]
-
-  printf('recJuso idx %d', idx)
-
-  for(idxParent in 1:nrow(dfParent)) {
-    parentCode = dfParent$child[idxParent]
-    parentHaengJeongGuYeok = dfParent$HaengJeongGuYeok[idxParent]
-    printf('parent %s %s', parentCode, parentHaengJeongGuYeok)
-
-    dfChild = dfChildren[dfChildren$parent == parentCode, ]
-
-    for(idxChild in 1:nrow(dfChild)) {
-      childCode = dfChild$child[idxChild]
-      childHaengJeongGuYeok = dfChild$HaengJeongGuYeok[idxChild]
-      # printf('child %s %s', idxChild, childHaengJeongGuYeok)
-
-      if(TRUE == fnRec[[idx]](dirtyJuso,
-                              parentHaengJeongGuYeok,
-                              childHaengJeongGuYeok)) {
-        df[1, idx+1] = parentHaengJeongGuYeok
-        df[1, idx+1+1] = childHaengJeongGuYeok
-        idx = idx+1
-        printf('before recJuso idx %d %s', idx, paste(parentHaengJeongGuYeok, childHaengJeongGuYeok))
-        return(recJuso(dirtyJuso, idx, df, columns, dfsRec, fnRec))
-      }
-    }
-  }
-  
-  return(df)
-}
-
-cleanJuso <- function(dirtyJuso) {
-  df = data.frame(c(dirtyJuso))
-  colnames(df) <- c('dirtyJuso')
-
-  columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong')
-  for(column in columns) {
-    df[column] = 'x';
-  }
-  
-  idx = 1;
-  return(recJuso(dirtyJuso, idx, df, columns, dfsRec, fnsRec))
-}
-
-
-KoreaAddressAPI <- function(dfDirtyJuso) {
-  df = data.frame(dfDirtyJuso)
-  
-  columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong')
-  for(column in columns) {
-    df[column] = '';
-  }
-  
-  for(idxRow in 1:nrow(dfDirtyJuso)) {
-    dirtyJuso = dfDirtyJuso$dirtyJuso[idxRow]
-    dirtyJuso = as.character(dirtyJuso)
-    dirtyJuso = modified_juso(dirtyJuso)
-    
-    printf('KoreaAddressAPI index(%d) %s', idxRow, dirtyJuso)
-    
-    dfCleaned = cleanJuso(dirtyJuso)
-
-    for(column in columns) {
-      df[idxRow, column] = dfCleaned[1, column];
-    }
-  }
-
-  return(df)
-}
-
-
-dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
-              '서울특별시 없는구 자당동')
-dfDirtyJuso = data.frame(dirtyJuso)
-dfDirtyJuso
-
-
-dfCleaned = KoreaAddressAPI(dfDirtyJuso)
-dfCleaned
-```
-
