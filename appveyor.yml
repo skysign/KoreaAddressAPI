@@ -9,11 +9,9 @@ notifications:
     on_build_failure: true
     on_build_status_changed: true
 
-
 environment:
   global:
     USE_RTOOLS: true
-    R_BUILD_ARGS: "--resave-data=best"
 
 # Download script file from GitHub
 init:

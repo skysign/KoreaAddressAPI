@@ -17,7 +17,6 @@ cache:
   - packages
   - $HOME/.ccache
   - $HOME/Library/Caches/Homebrew
-r_build_args: --resave-data=best
 latex: false
 
 # environment variables --------------------------------------------------------

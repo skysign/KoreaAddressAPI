@@ -29,8 +29,9 @@ head(df)
 ## 코드,시,군,동, 번지만 분리하여 데이터 프레임 생성
 
 ```{r}
-columns = c('BeopJeongDongKoDeu', 'SiDoMyeong', 'SiGunGuMyeong',
-            'BeopJeongEupMyeonDongMyeong','JiBeonBonBeon','JiBeonBuBeon')
+KAAreas = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong','JiBeonBonBeon','JiBeonBuBeon')
+columns = c('BeopJeongDongKoDeu', KAAreas)
+
 df2 <- df[columns]
 head(df2)
 ```
@@ -89,4 +90,14 @@ pathPostFix = 'dfs.rda'
 path = paste0(pathPrefix, pathPostFix)
 
 save(dfsRec, file = path, compress = TRUE)
+
+tools::resaveRdaFiles('../data')
+```
+
+# rda 파일을 최적화해서, 용량을 작게 만들기
+
+```{r}
+path = '../data'
+
+tools::resaveRdaFiles(path)
 ```
