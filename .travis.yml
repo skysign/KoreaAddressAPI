@@ -17,14 +17,13 @@ cache:
   - packages
   - $HOME/.ccache
   - $HOME/Library/Caches/Homebrew
+r_build_args: --resave-data=best
 latex: false
 
 # environment variables --------------------------------------------------------
 env:
   global:
     - MAKEFLAGS="-j 2"
-
-r_build_args: "--resave-data"
 
 # for codecov
 r_packages:
