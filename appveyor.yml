@@ -13,6 +13,7 @@ notifications:
 environment:
   global:
     USE_RTOOLS: true
+    R_BUILD_ARGS: '--resave-data'
 
 # Download script file from GitHub
 init:
