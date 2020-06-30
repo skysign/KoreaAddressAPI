@@ -1,6 +1,15 @@
 ## tic Appveyor CI template: windows
 ## revision date: 2020-05-09
 
+notifications:
+  - provider: Email
+    to:
+      - skysign@gmail.com
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
+
+
 environment:
   global:
     USE_RTOOLS: true
