@@ -1,7 +1,7 @@
 Package: KoreaAddressAPI
 Version: 0.1.0
 Date: 2020-06-12
-Title: To validate, parse and correct Korea address
+Title: To Validate, Parse and Correct Korea Address
 Authors@R: c(person("ByeongKeon", "Kim", role = c("aut", "cre"),
                 email = "skysign@gmail.com"),
             person("Bora", "Jeong", role = "aut",
@@ -25,7 +25,7 @@ Suggests:
     MASS,
     knitr,
     rmarkdown
-Description: This package is to parse/validate/correct Korea address by utilizing released whole addresses of https://www.juso.go.kr.
+Description: Given Korea Addres is parsed/validated/corrected and then, data frame is returned with corresponding Korea administrative areas by utilizing released Korea addresses of <https://www.juso.go.kr>
 License: Apache License 2.0
 LazyData: true
 Encoding: UTF-8
