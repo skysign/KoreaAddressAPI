@@ -13,11 +13,12 @@ matrix:
 
 # meta -------------------------------------------------------------------------
 language: r
-r_build_args: --resave-data
 cache:
   - packages
   - $HOME/.ccache
   - $HOME/Library/Caches/Homebrew
+r:
+  r_build_args: --resave-data
 latex: false
 
 # environment variables --------------------------------------------------------
