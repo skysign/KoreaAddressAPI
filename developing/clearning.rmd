@@ -3,7 +3,7 @@ library(dplyr)
 ```
 
 ```{r}
-pathPrefix = '../juso.go.kr/'
+pathPrefix = '../external_data_source/juso.go.kr/'
 YYYYMMPrefix = '202004_주소DB_전체분/'
 pathPostFix = '지번_서울특별시.txt'
 path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)

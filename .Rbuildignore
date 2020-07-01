@@ -8,7 +8,7 @@
 ^\.travis\.yml$
 ^_pkgdown\.yml$
 ^LICENSE$
-^examples$
-^developing$
-^juso\.go\.kr$
 ^cleaned$
+^developing$
+^examples$
+^external_data_source$
