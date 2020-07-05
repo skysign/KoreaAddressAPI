@@ -30,7 +30,7 @@ str9 = "서울특별시 관악구 남현동 1061-23"
 str10 = "서울특별시 관악구 남현동 1061"
 
 ParentChild_parent <- function(str, parent, child) {
-  pattern = paste0(parent, "(?=[\\s\\|\\t]?", child, ")")
+  pattern = paste0(parent, "(?=[\\s\\|\\t\\-]?", child, ")")
   #print(pattern)
   match = str_match(str, pattern)
     
@@ -41,7 +41,7 @@ ParentChild_parent <- function(str, parent, child) {
 }
 
 ParentChild_Child <- function(str, parent, child) {
-  pattern = paste0("(?<=", parent, "[\\s\\|\\t]?)", child)
+  pattern = paste0("(?<=", parent, "[\\s\\|\\t\\-]?)", child)
   #print(pattern)
   match = str_match(str, pattern)
   
@@ -99,7 +99,7 @@ GuDong <- function(str, parent, child) {
   return(FALSE)
 }
 
-dong_jibun <- function(str, parent, child) {
+Dong_bonbun <- function(str, parent, child) {
   print(str)
   print(parent)
   print(child)
@@ -115,7 +115,15 @@ dong_jibun <- function(str, parent, child) {
   return(match)
 }
 
-bon_bubun <- function(str,parent,child) {
+Dongbon <- function(str,parent,child){
+  return(ParentChild_parent(str, parent, child))
+}
+
+BonBu <- function(str,parent,child){
+  return(ParentChild_parent(str, parent, child))
+}
+
+Bon_bubun <- function(str,parent,child) {
   print(str)
   print(parent)
   print(child)
@@ -138,5 +146,8 @@ GuDong_Gu(str1,"동작구","사당동")
 GuDong_Dong(str1,"동작구","사당동")
 GuDong(str1,"동작구","사당동")
 
-dong_jibun(str10,"남현동","1061")
-bon_bubun(str10,"1061","23")
+Dong_bonbun(str10,"남현동","1061")
+Bon_bubun(str10,"1061","23")
+Dongbon(str9,"남현동","1061")
+BonBu(str10,"1061","23")
+BonBu(str9,"1061","23")
