@@ -1,0 +1,106 @@
+```{r libraries, include=FALSE}
+library(dplyr)
+```
+
+# 주소 데이터 불러오기
+
+```{r}
+pathPrefix = '../cleaned/'
+YYYYMMPrefix = '202004/'
+pathPostFix = 'JiBeon_Korea.csv'
+path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
+df = read.csv(path, fileEncoding = 'UTF-8')
+
+head(df)
+```
+
+### 모든 컬럼의 타입을 chraracter로 변경하기
+```{r }
+df$BeopJeongDongKoDeu = as.character(df$BeopJeongDongKoDeu) # 법정동코드 10자리 , 앞 두자리는 시도, 3~5자리는 구
+df$SiDoMyeong = as.character(df$SiDoMyeong) #시, 도
+df$SiGunGuMyeong = as.character(df$SiGunGuMyeong) #구
+df$BeopJeongEupMyeonDongMyeong = as.character(df$BeopJeongEupMyeonDongMyeong) #동
+df$JiBeonBonBeon = as.character(df$JiBeonBonBeon.BeonJi) #지번본번
+df$JiBeonBuBeon = as.character(df$JiBeonBuBeon.Ho) #지번부번
+
+head(df)
+```
+
+## 코드,시,군,동, 번지만 분리하여 데이터 프레임 생성
+
+```{r}
+KAAreas = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong','JiBeonBonBeon','JiBeonBuBeon')
+columns = c('BeopJeongDongKoDeu', KAAreas)
+
+df2 <- df[columns]
+head(df2)
+```
+
+```{r}
+df2['code_root'] = '0'
+df2['code_Si'] = substr(df2$BeopJeongDongKoDeu, 1, 2) # 법정동 코드에서 시 분리
+df2['code_Gu'] = substr(df2$BeopJeongDongKoDeu, 3, 5) # 법정동 코드에서 구 분리
+df2['code_Dong'] = substr(df2$BeopJeongDongKoDeu, 6, 8) # 법정동 코드에서 동 분리
+df2['code_BonBeon'] = paste0(df2$code_Dong, df2$JiBeonBonBeon) # 법정동 코드 + 지번본번
+df2['code_BuBeon'] = df2$JiBeonBuBeon # 법정동 코드 + 지번본번 + 지번부번
+head(df2)
+```
+
+
+```{r}
+siColumns = c('code_root', 'code_Si', 'SiDoMyeong')
+guColumns = c('code_Si', 'code_Gu', 'SiGunGuMyeong')
+dongColumns = c('code_Gu', 'code_Dong', 'BeopJeongEupMyeonDongMyeong')
+bonBeonColumns = c('code_Dong','code_BonBeon','JiBeonBonBeon')
+buBeonColumns = c('code_BonBeon','code_BuBeon','JiBeonBuBeon')
+
+dfSi = df2[siColumns]
+dfGu = df2[guColumns]
+dfDong = df2[dongColumns]
+dfBonBeon = df2[bonBeonColumns]
+dfBuBeon = df2[buBeonColumns]
+
+dfSi = unique(dfSi)
+dfGu = unique(dfGu)
+dfDong = unique(dfDong)
+dfBonBeon = unique(dfBonBeon)
+dfBuBeon = unique(dfBuBeon)
+
+newColumns = c('parent', 'child', 'HaengJeongGuYeok')
+
+colnames(dfSi) = newColumns
+colnames(dfGu) = newColumns
+colnames(dfDong) = newColumns
+colnames(dfBonBeon) = newColumns
+colnames(dfBuBeon) = newColumns
+
+head(dfSi)
+head(dfGu)
+head(dfDong)
+head(dfBonBeon)
+head(dfBuBeon)
+```
+
+# R package에 넣을 데이터프레임 rda에 저장
+
+```{r}
+dfsRec = list(dfSi, dfGu, dfDong, dfBonBeon, dfBuBeon)
+pathPrefix = '../data/'
+pathPostFix = 'dfs.rda'
+path = paste0(pathPrefix, pathPostFix)
+
+save(dfsRec, file = path)
+
+
+pathPostFix = 'KRAreas.rda'
+path = paste0(pathPrefix, pathPostFix)
+save(KAAreas, file = path)
+```
+
+# rda 파일을 최적화해서, 용량을 작게 만들기
+
+```{r}
+path = '../data'
+
+tools::resaveRdaFiles(path)
+```

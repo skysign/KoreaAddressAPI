@@ -1,0 +1,14 @@
+^docs$
+^pkgdown$
+^.*\.Rproj$
+^\.Rproj\.user$
+^appveyor\.yml$
+^tic\.R$
+^appveyor\.yml$
+^\.travis\.yml$
+^_pkgdown\.yml$
+^LICENSE$
+^cleaned$
+^developing$
+^examples$
+^external_data_source$

@@ -1,0 +1,35 @@
+Package: KoreaAddressAPI
+Version: 0.1.0
+Date: 2020-06-12
+Title: To Validate, Parse and Correct Korea Address
+Authors@R: c(person("ByeongKeon", "Kim", role = c("aut", "cre"),
+                email = "skysign@gmail.com"),
+            person("Bora", "Jeong", role = "aut",
+                email = "borajeong88@gmail.com"),
+            person("Jayoung", "Kim", role = "aut",
+                email = "jayoung82.kim@gmail.com"),
+            person("Moon S.", "Kim", role = "aut",
+                email = "telesoft2000@gmail.com"),
+            person("Seongil", "Park", role = "aut",
+                email = "zihado@gmail.com")
+            )
+Author: ByeongKeon Kim [aut, cre],
+    Bora Jeong [aut],
+    Jayoung Kim [aut],
+    Moon S. Kim [aut],
+    Seongil Park [aut]
+Maintainer: ByeongKeon Kim <skysign@gmail.com>
+Depends: R (>= 3.6.0)
+Imports: dplyr, tokenizers, stringr, devtools, testthat
+Suggests: 
+    MASS,
+    knitr,
+    rmarkdown
+Description: Given Korea Addres is parsed/validated/corrected and then, data frame is returned with corresponding Korea administrative areas by utilizing released Korea addresses of <https://www.juso.go.kr>
+License: Apache License 2.0
+LazyData: true
+Encoding: UTF-8
+URL: https://skysign.github.io/KoreaAddressAPI
+BugReports: https://github.com/skysign/KoreaAddressAPI/issues
+RoxygenNote: 7.1.0
+VignetteBuilder: knitr

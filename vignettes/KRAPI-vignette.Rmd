@@ -1,0 +1,59 @@
+---
+title: "KoreaAddressAPI package vignette"
+author: "ByeongKeon Kim"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{KoreaAddressAPI package vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r install}
+# Install package from github
+devtools::install_github('skysign/KoreaAddressAPI', force = TRUE)
+
+# Install package from local directory
+#devtools::install_local('C:/work_git/KoreaAddressAPI', force = TRUE)
+```
+
+```{r setup}
+library(KoreaAddressAPI)
+```
+
+# Function in KoreaAddressAPI
+
+## KAParse() fucntion
+
+This function is to parse Korea address string as per administrative areas. KAParse read only the column which is pointed by columnName parameter, and add new columns for administrative areas such as SiDoMyeong, SiGunGuMyeong. If we can't find appropriated administrative area, we mark 'x' to its corresponding column. 
+
+#. usage
+KAParse(dfDirtyJuso, columnName)
+
+
+#. parameters
+`dfDirtyJuso` Input data frame
+
+`columnName` column name of input data frame, which will be parsed
+
+#. return
+Returned data frame has new columns as corresponding administrative areas, and they have a parsed the name of particular administrative area.
+
+#. example
+```{r}
+dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
+              '서울특별시 없는구 자당동')
+dfDirtyJuso = data.frame(dirtyJuso)
+dfDirtyJuso
+
+dfCleaned = KAParse(dfDirtyJuso, 'dirtyJuso')
+dfCleaned
+```

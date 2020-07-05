@@ -1,58 +1,33 @@
 # 한국주소API (KoreaAddressAPI)
-한국 주소 API, juso.go.kr의 주소데이터 기반으로 만든 한국주소 API입니다.
+R 에서 한국 주소를 다루기 위한 Package 입니다.
+```
+library(KoreaAddressAPI)
 
-아래와 같은 다양한 형태의 주소를 깨끗한 주소로 만들어주는 API로, R 과 Python을 사용하여 개발되었습니다.
+dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
+              '서울특별시 없는구 자당동')
+dfDirtyJuso = data.frame(dirtyJuso)
+dfDirtyJuso
+#>                               dirtyJuso
+#> 1 서울특별시 \n\t   동작구 | |   사당동
+#> 2              서울특별시 없는구 자당동
 
-사용법은 [여기](아직링크없다)를 참고하세요
+dfCleaned = KAParse(dfDirtyJuso)
+dfCleaned
+#>                               dirtyJuso SiDoMyeong SiGunGuMyeong BeopJeongEupMyeonDongMyeong
+#> 1 서울특별시 \n\t   동작구 | |   사당동 서울특별시        동작구                      사당동
+#> 2              서울특별시 없는구 자당동          x             x                           x
+```
+[![Build Status](https://travis-ci.org/skysign/KoreaAddressAPI.svg?branch=master)](https://travis-ci.org/skysign/KoreaAddressAPI)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/skysign/KoreaAddressAPI?branch=master&svg=true)](https://ci.appveyor.com/project/skysign/KoreaAddressAPI)
+[![codecov](https://codecov.io/github/skysign/KoreaAddressAPI/branch/master/graphs/badge.svg)](https://codecov.io/github/skysign/KoreaAddressAPI)
+[![GitHub stars](https://img.shields.io/github/stars/skysign/KoreaAddressAPI.svg)](https://github.com/skysign/KoreaAddressAPI/stargazers)
+[![GitHub license](https://img.shields.io/github/license/skysign/KoreaAddressAPI.svg)](https://github.com/skysign/KoreaAddressAPI/blob/master/LICENSE)
 
----
-입력주소 예제 #1 도로명주소로 입력되어 있는 주소 예제입니다.
-
-* 특정지역명이 여러가지로 작성된 주소 / 서울/ 서울시/ 서울특별시
-* 주소 중간에 필요없는 문자나 특수문자가 추가되어 있음
-
-
-- 서울 관악구 남현3길 78, 덕원빌딩 6층
-- 서울특별시, 관악구 남현3길, 78 덕원빌딩 6층
-- 서울시 관악구 남현3길 78 덕원빌딩 6층
-
-출력주소 예제 #1
-
-|시/도|군/구|도로명 주소|건물이름|호수/상세위치|
-|---|---|---|---|---|
-|서울|관악구|남현3길 78|덕원빌딩|6층|
-
----
-
-입력주소 예제 #2 지번 주소로 입력되어 있는 주소 예제입니다.
-
-* 특정지역명이 여러가지로 작성된 주소 / 서울/ 서울시/ 서울특별시
-* 지번주소에 '번지'와 같은 필요 없는 글자가 포함되어 있음
-
-
-- 서울 관악구 남현동 602-1 6층
-- 서울시 관악구 남현동 602-1 6층
-- 서울특별시 관악 남현동 602-1번지 6층
-- 서울특별시 관악 남현동 602-1 6층
-
-출력주소 예제 #2
-
-|시/도|군/구|동/읍/면|지번/리|건물이름|호수/상세위치|
-|---|---|---|---|---|---|
-|서울|관악구|남현동|602-1|   |6층|
-
----
-
-입력주소 예제 #3 동/읍/면과 도로명 주소가 함께 입력되어 있는 주소 예제입니다.
-
-* 도로명주소와 함께, 동/읍/면이 함께 포함되어 있음
-
-
-- 서울특별시 관악구 남현동 남현3길 78 6층
-
-출력주소 예제 #3
-
-***어케 하는게 좋을려나, 고민중***
+# 새소식
+## 0.1.0 릴리즈
+- KAPrase()
+ - 서울시 주소만 지원
+ - 시도/군구/동 까지 주소를 구분 가능함
 
 # 프로젝트를 시작하게된 이유는..?
 이 책으로 ↓ [DAT스터디](https://skysign.github.io/DAT/)를 진행하고 있었습니다. <br>
@@ -73,13 +48,13 @@ https://book.naver.com/bookdb/book_detail.nhn?bid=12256508
 * Toast 에서도 한국주소 API는 판매가 중지 되었습니다. 자세한 내용은 [여기 참고](https://www.toast.com/kr/support/notice/detail/1331)하세요
 * juso.go.kr에서 제공하는 rest API가 있기는 했지만, 사용자가 입력한 에러가 있는 주소를 잘 처리해주지 못했습니다.
 
+**결론! 없으면 만든다. :-)**
+
 ## juso.go.kr에서 제공하는 데이터의 저작권에 따라 사용에 제한이 있지 않을까요?
 
 **공공데이터법에 근거하여 공공데이터는 누구나 이용가능하고, 영리 목적의 이용을 포함한 자유로운 활용이 보장되므로 목적에 맞게 활용하시기 바랍니다.**
 - 이렇게 답변 되어 있습니다. ^^
 - 출처 : https://www.juso.go.kr/addrlink/DevCenterQABoardDetail.do?mgtSn=36836&currentPage=1&searchType=subject&keyword=%EC%A0%80%EC%9E%91
-
-**결론! 없으면 만든다. :-)**
 
 ---
 

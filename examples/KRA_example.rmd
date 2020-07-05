@@ -1,0 +1,26 @@
+```{r}
+devtools::install_github(
+  'skysign/KoreaAddressAPI',
+  build_vignettes = TRUE,
+  force = TRUE)
+
+# devtools::install_local(
+#   'C:/work_git/KoreaAddressAPI',
+#   build_vignettes = TRUE,
+#   force = TRUE)
+```
+
+
+```{r}
+library(KoreaAddressAPI)
+
+dirtyJuso = c('서울특별시 \n\t   동작구 | |   사당동',
+              '서울특별시 없는구 자당동')
+dfDirtyJuso = data.frame(dirtyJuso)
+dfDirtyJuso
+
+dfCleaned = KAParse(dfDirtyJuso, 'dirtyJuso')
+dfCleaned
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -1,0 +1,128 @@
+``` {r}
+remotes::install_github("ropensci/tic")
+remotes::install_github("ropensci/travis")
+
+install.packages("rmarkdown")
+install.packages("backports")
+
+install.packages("testthat") 
+```
+
+``` {r}
+travis::browse_travis_token()
+```
+
+``` {r}
+usethis::edit_r_environ()
+```
+``` {r}
+tic::use_tic()
+tic::deploy()
+```
+
+``` {r}
+# R package 빌드해서, Error/Warning/Note 리포트 해줌
+devtools::check_win_devel()
+```
+
+``` {r}
+# docs 만들어줌줌
+pkgdown::build_site()
+```
+
+``` {r}
+# NAMESPACE 만들어줌줌
+devtools::document()
+```
+
+``` {r}
+# travis 에서만 사용해야 됨
+pkgdown::deploy_site_github()
+```
+
+``` {r}
+devtools::build(pkg = '../')
+
+Sys.getenv("R_LIBS")
+```
+
+``` {r}
+devtools::build(pkg = '../')
+
+Sys.getenv("PKG_TARBALL")
+```
+
+``` {r}
+pkgdown::build_site(pkg = '../')
+
+# git repo가 있는 디렉토리에서
+# repo 에서만 사용할 git config 가 필요함
+#
+# git config user.email "skysign@gmail.com"
+# git config user.name "ByeongKeon Kim"
+
+pkgdown::deploy_to_branch(pkg = '../')
+```
+
+``` {r}
+usethis::use_appveyor()
+```
+
+``` {r}
+install.packages('pdflatex', force = TRUE)
+```
+
+
+``` {r}
+travis::use_travis_deploy()
+```
+
+``` {r}
+library(devtools)
+devtools::test_coverage()
+```
+
+``` {r}
+devtools::use_vignette("my-vignette")
+```
+
+``` {r}
+usethis::use_testthat()
+usethis::use_test()
+```
+
+``` {r}
+library(testthat)
+library(KoreaAddressAPI)
+
+test_check("KoreaAddressAPI")
+
+# # testthat::test_check("./tests")
+# testthat::testing_package()
+```
+
+``` {r}
+# R library 패스
+Sys.getenv("R_LIBS")
+.libPaths()
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
+
+``` {r}
+
+```
+
+``` {r}
+devtools::test()
+```

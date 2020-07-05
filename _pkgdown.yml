@@ -1,0 +1,25 @@
+URL: https://skysign.github.io/KoreaAddressAPI, https://github.com/skysign/KoreaAddressAPI
+
+destination:
+  docs
+
+development:
+  mode: auto
+
+authors:
+  ByeongKeon Kim:
+    href: https://github.com/skysign/public
+  Bora Jeong:
+    href: https://github.com/borajeong88
+  Jayoung Kim:
+    href: https://github.com/JayoungKim82
+  Moon S. Kim:
+    href: https://github.com/lady-mama
+  Seongil Park:
+    href: https://github.com/seongilp
+  DAT Study:
+    href: https://skysign.github.io/DAT
+
+template:
+  params:
+    ganalytics: UA-169212547-1

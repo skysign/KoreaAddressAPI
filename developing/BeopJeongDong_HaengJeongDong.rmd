@@ -1,0 +1,292 @@
+# 법정동과 행정동이름 짝짓기
+
+## 법정동과 행정동이름 짝짓기 준비, 짝짓기 데이터 클리닝
+행정동으로 검색해도, 주소가 파싱 가능하도록, 행정도과 법정동을 짝지어 줍니다.
+
+```{r}
+pathPrefix = '../external_data_source/mois.go.kr/'
+YYYYMMPrefix = '20200618/'
+pathPostFix = 'KIKmix.20191213.csv'
+path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
+df = read.csv(path, fileEncoding = 'UTF-8-BOM', stringsAsFactors = FALSE)
+
+newColumns = c('HaengJeongDongKoDeu', 'SiDoMyeong', 'SiGunGuMyeong', 'HaengJeongDongMyeong', 
+               'BeopJeongDongKoDeu', 'BeopJeongDongMyeong', 'Saeng', 'Mal')
+colnames(df) = newColumns
+
+# 필요한 3개의 컬럼만 선택
+df = df[, c('BeopJeongDongKoDeu', 'BeopJeongDongMyeong', 'HaengJeongDongMyeong')]
+columns = colnames(df)
+
+
+# 모든 컬럼 캐릭터로 변환
+for(idx in 1:length(columns)) {
+  # 법정동코드 or 행정동코드 e+09 와 같은 식으로 표현되지 않도록 변경
+  df[, columns[idx]] = format(df[, columns[idx]], scientific=F)
+  # chracter 로 변경
+  df[, columns[idx]] = as.character(df[, columns[idx]])
+}
+
+# ' '는 모두 제거
+df$BeopJeongDongMyeong <- gsub('\\s+', '', df$BeopJeongDongMyeong)
+df$HaengJeongDongMyeong <- gsub('\\s+', '', df$HaengJeongDongMyeong)
+
+# 구, 동이 비어 있는 row 제거
+df = df[df$BeopJeongDongMyeong != '' & df$HaengJeongDongMyeong != '', ]
+head(df)
+
+# dfDong과 data frame merge를 하기 위해서, key 만들기
+df['key'] = paste0(substr(df$BeopJeongDongKoDeu, 1, 8), df$BeopJeongDongMyeong)
+dfBeopHaeng = df[c('key', 'BeopJeongDongMyeong', 'HaengJeongDongMyeong')]
+
+dfBeopHaeng
+
+head(dfBeopHaeng)
+# View(dfBeopHaeng)
+```
+
+## 한글 이외의 다른 글자가 들어 있는 모든 동이름 찾아 보기
+
+이렇게 찾은 데이터를 보고, 동이름이 어떻게 구성되어 있는지 알아 봅니다.
+
+```{r}
+library(stringr)
+
+# 한글이 아닌 글자가 들어 있는 동이름 모두 찾기
+pattern = '[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+'
+
+dfBeop = dfBeopHaeng[str_match(dfBeopHaeng$BeopJeongDongMyeong, pattern) != dfBeopHaeng$BeopJeongDongMyeong, ]
+dfHaeng = dfBeopHaeng[str_match(dfBeopHaeng$HaengJeongDongMyeong, pattern) != dfBeopHaeng$HaengJeongDongMyeong, ]
+
+dfBeop = data.frame(dfBeop$BeopJeongDongMyeong)
+dfHaeng= data.frame(dfHaeng$HaengJeongDongMyeong)
+
+colnames(dfBeop) = c('BeopJeongDongMyeong');
+colnames(dfHaeng) = c('HaengJeongDongMyeong');
+
+dfBeop = unique(dfBeop)
+dfHaeng = unique(dfHaeng)
+dfBeop
+dfHaeng
+```
+
+## 동이름으로 사용될 수 있는 후보동이름 찾기
+
+'사당1동' 과 '사당동' 모두 같은 지역을 가리키지만, 표현이 다를 뿐입니다.
+또, '[0-9]+[가]' 라는 주소에서도 같은 현상이 나타납니다. '종로1가' 와 '종로'도 같은 지역입니다.
+위와 같이, 같은 지역을 서로 다른 이름으로 나타내는 것을 후보동이름 이라고 정의하고,
+후보동이름으로 주소가 입력되어도, 올바르게 주소를 파싱할 수 있도록,
+뒤에서는 후부동이름을 모두 찾아 보겠습니다.
+
+### 다양한 후보동이름을 모두 찾아내기
+
+성수1가제1동은 실제 존재하는 행정동 이름 입니다.
+이 지역을 주소로 적을 때, 아래와 같이 여러가지지 후보동이름으로 작성가능합니다.
+
+- 성수동
+- 성수1가
+- 성수1동
+- 성수1가1동
+- 성수제1동
+- 성수1가제1동
+
+위와 같은 다양한 후보동이름을 찾을 수 있는 방법이 필요합니다.
+
+우선, 전국의 법정동이름과 행정동이름을 모두 고려한 개수는 21,409 가지 입니다.
+한개의 법정동이 여러개의 행정동이름을 가질 수 있으면서도, 그 반대의 경우도 존재합니다.
+
+따라서, 모든 번정동이름(또는 행정동이름)을 잡아낼 수 있는,
+정규표현식을 작성할 수 있으면, 그 정규식으로 부터, 다양한 후보동이름을 알아낼 수 있습니다.
+
+
+#### 모든 법정동 찾을 수 있는 정규표현식
+
+```{r}
+dfBeopHaeng
+
+#전체 21,409 rows
+# 만든 정규식을 통과했을 때, 21,409개의 rows를 찾을 수 있어야 합니다.
+```
+
+
+
+```{r}
+# '가'로 끝나는 경우 / ex 종로1가
+pattern = '[가]$'
+
+dfBeopHaeng[grepl(pattern, dfBeopHaeng$BeopJeongDongMyeong), ]
+```
+
+```{r}
+# '가'로 끝나는 경우
+# '동'으로 끝나는 경우
+pattern = '[가]$|[동]$'
+
+dfBeopHaeng[grepl(pattern, dfBeopHaeng$BeopJeongDongMyeong), ]
+```
+```{r}
+# '가'로 끝나는 경우
+# '동'으로 끝나는 경우
+# '리'으로 끝나는 경우
+pattern = '[가]$|[동]$|[리]$'
+
+dfBeopHaeng[grepl(pattern, dfBeopHaeng$BeopJeongDongMyeong), ]
+```
+
+```{r}
+# '가'로 끝나는 경우
+# '동'으로 끝나는 경우
+# '리'으로 끝나는 경우
+# '읍'으로 끝나는 경우
+pattern = '[가]$|[동]$|[리]$|[읍]$'
+
+dfBeopHaeng[grepl(pattern, dfBeopHaeng$BeopJeongDongMyeong), ]
+```
+
+```{r}
+# '가'로 끝나는 경우
+# '동'으로 끝나는 경우
+# '리'으로 끝나는 경우
+# '읍'으로 끝나는 경우
+# '면'으로 끝나는 경우
+pattern = '[가]$|[동]$|[리]$|[읍]$|[면]$'
+
+dfBeopHaeng[grepl(pattern, dfBeopHaeng$BeopJeongDongMyeong), ]
+```
+
+```{r}
+# '가'로 끝나는 경우
+# '동'으로 끝나는 경우
+# '리'로 끝나는 경우
+# '읍'으로 끝나는 경우
+# '면'으로 끝나는 경우
+# '로'으 끝나는 경우
+
+pattern = '[가]$|[동]$|[리]$|[읍]$|[면]$|[로]$'
+
+dfBeopHaeng[grepl(pattern, dfBeopHaeng$BeopJeongDongMyeong), ]
+```
+
+21,350 은 21,409 에 거의 근접했습니다. 위의 정규식으로 찾을 수 없는 법정동이름이 59개 라는 뜻입니다.
+아직 못 찾은 59개 무엇인지 알아 보겠습니다.
+
+```{r}
+# 여집합 찾기
+pattern = '[가]$|[동]$|[리]$|[읍]$|[면]$|[로]$'
+
+dfBeopHaeng[!grepl(pattern, dfBeopHaeng$BeopJeongDongMyeong), ]
+```
+
+'군', '구', '시', 심지어는 특수문자 ')' 로 끝나는 곳도 있네요, 
+21,409 가지를 모두 찾았습니다.
+
+```{r}
+# '가'로 끝나는 경우
+# '동'으로 끝나는 경우
+# '리'로 끝나는 경우
+# '읍'으로 끝나는 경우
+# '면'으로 끝나는 경우
+# '로'으 끝나는 경우
+# '군'으 끝나는 경우
+# '구'으 끝나는 경우
+# '시'으 끝나는 경우
+
+pattern = '[가]$|[동]$|[리]$|[읍]$|[면]$|[로]$|[군]$|[구]$|[시]$|[\\)]$'
+
+dfBeopHaeng[grepl(pattern, dfBeopHaeng$BeopJeongDongMyeong), ]
+```
+
+#### 모든 행정동을 찾을 수 있는 정규표현식
+
+행정동은 법정동이름을 찾는 정규표현식에, '출장소'와 '출장'을 더하면, 모두 찾을 수 있습니다.
+'출장'은 아마도, 길어서, '소'자가 짤린 것 같습니다. 오타 일 수도 있구요 :-)
+
+```{r}
+# '가'로 끝나는 경우
+# '동'으로 끝나는 경우
+# '리'로 끝나는 경우
+# '읍'으로 끝나는 경우
+# '면'으로 끝나는 경우
+# '로'으 끝나는 경우
+# '군'으 끝나는 경우
+# '구'으 끝나는 경우
+# '시'으 끝나는 경우
+# '출장소'로 끝나는 경우
+# '출장'으로 끝나는 경우
+
+pattern = '[가]$|[동]$|[리]$|[읍]$|[면]$|[로]$|[군]$|[구]$|[시]$|[\\)]$|[출장소]$|[출장]$'
+
+dfBeopHaeng[grepl(pattern, dfBeopHaeng$HaengJeongDongMyeong), ]
+```
+
+### 후보동 이름을 찾아서
+
+```{r}
+library(stringr)
+
+pattern = '[제]?[0-9\\.]+[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+'
+
+tmp = str_extract(dfBeopHaeng$BeopJeongDongMyeong, pattern)
+tmp = data.frame(tmp);
+unique(tmp)
+# tmp[!is.na(tmp$tmp), ]
+# grep(pattern, dfBeopHaeng$HaengJeongDongMyeong)
+```
+
+```{r}
+library(stringr)
+
+pattern = '[제]?[0-9\\.]+[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+'
+
+tmp = str_extract(dfBeopHaeng$HaengJeongDongMyeong, pattern)
+tmp = data.frame(tmp);
+unique(tmp)
+# tmp[!is.na(tmp$tmp), ]
+# grep(pattern, dfBeopHaeng$HaengJeongDongMyeong)
+```
+
+```{r}
+#dummy
+pattern = '[가]$|[동]$|[리]$|[읍]$|[면]$|[로]$|[군]$|[구]$|[시]$|[\\)]$'
+
+dfBeopHaeng[!grepl(pattern, dfBeopHaeng$HaengJeongDongMyeong), ]
+```
+
+```{r}
+pattern = '[가]$|[동]$|[리]$|[읍]$|[면]$|[로]$|[군]$|[구]$|[시]$|[\\)]$'
+
+dfBeopHaeng[!grepl(pattern, dfBeopHaeng$HaengJeongDongMyeong), ]
+```
+
+```{r}
+pattern = '[가]$|[동]$|[리]$|[읍]$|[면]$|[로]$|[군]$|[구]$|[시]$|[\\)]$'
+
+dfBeopHaeng[!grepl(pattern, dfBeopHaeng$HaengJeongDongMyeong), ]
+```
+
+#### 동이름의 모든 구성요소를 찾을 수 있는 정규식 만들기
+
+동이름으로 사용될 수 있는 후보군은 아래와 같습니다.
+- 법정동
+- 법정동에서 '?가' 를 제외한 이름
+- 법정동에서 '동' 를 제외한 이름
+
+- 행정동은 동이름 + [][0-9]+[동]'
+- 행정동에서 '?가' 를 제외한 이름
+- 행정동에서 '?동' 를 제외한 이름
+- 행정동에서 '제?동'를 제외한 이름
+- 행정동에서 '제?동'에서 '제'만 제외한 이름 / ex: 성수1가1동
+
+
+```{r}
+
+```
+
+## 
+```{r}
+
+```
+
+```{r}
+
+```
