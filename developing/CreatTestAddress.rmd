@@ -1,0 +1,74 @@
+```{r libraries, include=FALSE}
+library(dplyr)
+```
+
+
+# 테스트 주소 만들기
+
+이 패키지를 테스트 하기위한 주소를 만들어 보겠습니다.
+
+## 기존에 클리닝한 데이터 불러오기
+
+```{r}
+pathPrefix = '../cleaned/'
+YYYYMMPrefix = '202004/'
+pathPostFix = 'JiBeon_Korea.csv'
+path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
+df = read.csv(path, fileEncoding = 'UTF-8')
+
+head(df)
+```
+
+### 사용할 컬럼의 타입을 chraracter로 변경하기
+```{r }
+df$SiDoMyeong = as.character(df$SiDoMyeong) #시, 도
+df$SiGunGuMyeong = as.character(df$SiGunGuMyeong) #구
+df$BeopJeongEupMyeonDongMyeong = as.character(df$BeopJeongEupMyeonDongMyeong) #동
+df$JiBeonBonBeon = as.character(df$JiBeonBonBeon.BeonJi) #지번본번
+df$JiBeonBuBeon = as.character(df$JiBeonBuBeon.Ho) #지번부번
+
+head(df)
+```
+
+### 시,구,동,번지(본번/부번) 컬럼만 분리하여 데이터 프레임 생성
+
+```{r}
+KAAreas = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong', 'JiBeonBonBeon', 'JiBeonBuBeon')
+
+df2 <- df[KAAreas]
+
+head(df2)
+```
+
+
+
+```{r  }
+df2$fullAddress <- paste(df2$SiDoMyeong, df2$SiGunGuMyeong, df2$BeopJeongEupMyeonDongMyeong)
+df2$fullAddress <- paste0(df2$fullAddress, ' ', df2$JiBeonBonBeon, '-', df2$JiBeonBuBeon)
+
+dfTestAddress <- data.frame(df2$fullAddress)
+ 
+head(dfTestAddress)
+```
+
+
+```{r create a clean data}
+pathPrefix = '../cleaned/'
+YYYYMMPrefix = '202004/'
+pathPostFix = 'TestAddress.csv'
+path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
+
+write.csv(dfTestAddress, path, row.names = FALSE, fileEncoding = 'UTF-8')
+```
+
+### 저장한 테스트 주소 확인
+
+```{r  }
+pathPrefix = '../cleaned/'
+YYYYMMPrefix = '202004/'
+pathPostFix = 'TestAddress.csv'
+path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
+dfTestAddress <- read.csv(path, fileEncoding = 'UTF-8')
+
+head(dfTestAddress)
+```
