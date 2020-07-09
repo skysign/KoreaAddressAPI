@@ -8,21 +8,40 @@ YYYYMMPrefix = '202004_주소DB_전체분/'
 pathPostFix = '지번_서울특별시.txt'
 path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
 
-seoul <- read.table(path, sep = '|')
+txtFiles = c('지번_강원도.txt', '지번_경기도.txt', '지번_경상남도.txt', '지번_경상북도.txt',
+             '지번_광주광역시.txt', '지번_대구광역시.txt','지번_대전광역시.txt', '지번_부산광역시.txt',
+             '지번_세종특별자치시.txt', '지번_울산광역시.txt', '지번_인천광역시.txt', '지번_전라남도.txt',
+             '지번_전라북도.txt', '지번_제주특별자치도.txt', '지번_충청남도.txt', '지번_충청북도.txt')
 
-seoul <- rename(seoul, "GwanRiBeonHo"="V1",
-                "IlLyeonBeonHo"="V2",
-                "BeopJeongDongKoDeu"="V3",
-                "SiDoMyeong"="V4",
-                "SiGunGuMyeong"="V5",
-                "BeopJeongEupMyeonDongMyeong"="V6",
-                "BeopJeongRiMyeong"="V7",
-                "SanYeoBu"="V8",
-                "JiBeonBonBeon(BeonJi)"="V9",
-                "JiBeonBuBeon(Ho)"="V10",
-                "DaePyoYeoBu"="V11")
+readJiBeonJuso <- function(path) {
+  df <- read.table(path, sep = '|')
+  df <- rename(df, "GwanRiBeonHo"="V1",
+                  "IlLyeonBeonHo"="V2",
+                  "BeopJeongDongKoDeu"="V3",
+                  "SiDoMyeong"="V4",
+                  "SiGunGuMyeong"="V5",
+                  "BeopJeongEupMyeonDongMyeong"="V6",
+                  "BeopJeongRiMyeong"="V7",
+                  "SanYeoBu"="V8",
+                  "JiBeonBonBeon(BeonJi)"="V9",
+                  "JiBeonBuBeon(Ho)"="V10",
+                  "DaePyoYeoBu"="V11")  
+  return(df)
+}
 
-head(seoul)
+# 서울 지번주소 읽기
+dfJiBeonJuso = readJiBeonJuso(path)
+
+for(idx in 1:length(txtFiles)) {
+  pathPostFix = txtFiles[idx]
+  path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
+  #print(path)
+  dfTmp = readJiBeonJuso(path)
+  dfJiBeonJuso = rbind(dfJiBeonJuso, dfTmp)
+}
+
+head(dfJiBeonJuso)
+summary(dfJiBeonJuso)
 ```
 
 ```{r}
@@ -31,5 +50,5 @@ YYYYMMPrefix = '202004/'
 pathPostFix = 'JiBeon_Korea.csv'
 path = paste0(pathPrefix, YYYYMMPrefix, pathPostFix)
 
-write.csv(seoul, path, row.names = FALSE, fileEncoding = 'UTF-8')
+write.csv(dfJiBeonJuso, path, row.names = FALSE, fileEncoding = 'UTF-8')
 ```
