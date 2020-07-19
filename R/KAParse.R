@@ -37,12 +37,12 @@ recJuso <- function(dirtyJuso, idx, df, columns, dfsRec, fnsRec) {
 }
 
 cleanJuso <- function(dirtyJuso) {
-  fnsRec = list(SiGu, GuDong)
+  fnsRec = list(SiGu, GuDong, DongBon, BonBu)
 
   df = data.frame(c(dirtyJuso))
   colnames(df) <- c('dirtyJuso')
   
-  columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong')
+  columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong','JiBeonBonBeon','JiBeonBuBeon')
   for(column in columns) {
     df[column] = 'x';
   }
@@ -55,7 +55,7 @@ cleanJuso <- function(dirtyJuso) {
 KAParse <- function(dfDirtyJuso, columnName) {
   df = data.frame(dfDirtyJuso)
   
-  columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong')
+  columns = c('SiDoMyeong', 'SiGunGuMyeong', 'BeopJeongEupMyeonDongMyeong','JiBeonBonBeon','JiBeonBuBeon')
   for(column in columns) {
     df[column] = '';
   }
