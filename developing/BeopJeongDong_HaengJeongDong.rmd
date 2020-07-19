@@ -39,35 +39,147 @@ head(df)
 df['key'] = paste0(substr(df$BeopJeongDongKoDeu, 1, 8), df$BeopJeongDongMyeong)
 dfBeopHaeng = df[c('key', 'BeopJeongDongMyeong', 'HaengJeongDongMyeong')]
 
-dfBeopHaeng
-
 head(dfBeopHaeng)
+summary(dfBeopHaeng)
 # View(dfBeopHaeng)
 ```
 
 ## 한글 이외의 다른 글자가 들어 있는 모든 동이름 찾아 보기
 
-이렇게 찾은 데이터를 보고, 동이름이 어떻게 구성되어 있는지 알아 봅니다.
+이렇게 찾은 데이터를 Assess해보고, 동이름이 어떻게 구성되어 있는지 알아 봅니다.
+법정동, 행정동 2가지 동이름을 다루기 쉽도록, 하나의 데이터프래임으로 만들어서,
+중복을 제거 합니다.
 
 ```{r}
 library(stringr)
 
-# 한글이 아닌 글자가 들어 있는 동이름 모두 찾기
-pattern = '[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+'
+dfBeop = data.frame(dfBeopHaeng$BeopJeongDongMyeong)
+dfHang = data.frame(dfBeopHaeng$HaengJeongDongMyeong)
 
-dfBeop = dfBeopHaeng[str_match(dfBeopHaeng$BeopJeongDongMyeong, pattern) != dfBeopHaeng$BeopJeongDongMyeong, ]
-dfHaeng = dfBeopHaeng[str_match(dfBeopHaeng$HaengJeongDongMyeong, pattern) != dfBeopHaeng$HaengJeongDongMyeong, ]
+colnames(dfBeop) = c('DongMyeong')
+colnames(dfHang) = c('DongMyeong')
 
-dfBeop = data.frame(dfBeop$BeopJeongDongMyeong)
-dfHaeng= data.frame(dfHaeng$HaengJeongDongMyeong)
+dfDongMyeong = rbind(dfBeop, dfHang)
+dfDongMyeong = unique(dfDongMyeong)
+dfDongMyeong$DongMyeong = as.character(dfDongMyeong$DongMyeong)
 
-colnames(dfBeop) = c('BeopJeongDongMyeong');
-colnames(dfHaeng) = c('HaengJeongDongMyeong');
+head(dfDongMyeong)
+summary(dfDongMyeong)
+```
 
-dfBeop = unique(dfBeop)
-dfHaeng = unique(dfHaeng)
-dfBeop
-dfHaeng
+법정동, 행정동 이름을 모두 모아서, 중복을 제외 하니, 12404개의 동이름이 나왔습니다.
+동이름에 대해서 가장 먼저 떠오르는 것은 '사당1동' '사당 2동'과 같이 동이름에 숫자가 붙는 것입니다.
+
+```{r}
+# 한글만 들어 있는 동이름 찾기
+pattern = '[가-힣]+$'
+
+# 서로 다름 != 을 사용해서, 한글 이외의 글자가 들어 있는 동이름 찾기
+dfDongMyeongNotHanGuel = dfDongMyeong[str_match(dfDongMyeong$DongMyeong, pattern) != dfDongMyeong$DongMyeong, ]
+dfDongMyeongNotHanGuel = data.frame(dfDongMyeongNotHanGuel)
+colnames(dfDongMyeongNotHanGuel) = c('DongMyeong')
+dfDongMyeongNotHanGuel = dfDongMyeongNotHanGuel[order(dfDongMyeongNotHanGuel$DongMyeong), ]
+
+dfDongMyeongNotHanGuel = data.frame(dfDongMyeongNotHanGuel)
+colnames(dfDongMyeongNotHanGuel) = c('DongMyeong')
+dfDongMyeongNotHanGuel$DongMyeong = as.character(dfDongMyeongNotHanGuel$DongMyeong)
+dfDongMyeongNotHanGuel
+```
+
+이렇게 동이름에 한글 이외의 글자가 들어 있는 동들을 보니, 몇가지 패턴으로 나뉘는 것을 알 수 있습니다.
+동이름의 prefix 라고 할 수 있는 것이 있고, '제', '1가' '1동' 으로 구성이 됩니다.
+그리고, 동이름에 들어가는 숫자는 한개만이 아니고, 복수개의 숫자가 들어 갈 수도 있습니다.
+'상계3.4동' 과 같이 2개(또는 2개의 상)의 숫자가 들어 있는 경우도 있습니다.
+
+### xx동1가
+
+경동1가, 과 같은 구성인 동이름
+
+- 후보동이름
+경동 : 1가만 땜
+경1가동 : '1가' 동앞에 옮
+경제1가동 : '1가'앞에 제 붙여줌
+
+prefixDong = '경'
+
+```{r}
+# xx동1.2가 pattern
+pattern = '[가-힣]+[동][제]?[[0-9]+[\\.]]*[0-9]+[가]'
+
+rows1 = str_match(dfDongMyeongNotHanGuel$DongMyeong, pattern) == dfDongMyeongNotHanGuel$DongMyeong
+rows1 = !is.na(rows1)
+
+dfDongGa = dfDongMyeongNotHanGuel[rows1, ]
+ 
+head(dfDongGa)
+# dfDongGa
+summary(dfDongGa)
+```
+
+###  xx1동
+가락1동, 과 같은 구성인 동이름
+
+-후보동이름
+가락동 : 숫자만 뺌
+가락제1동 : 숫자앞에 '제'가 없으면, '제'를 넣어준다. 만약'제'가 있으면, '제를' 뺀 동이름을 넣어준다
+
+```{r}
+# xx1동 pattern
+pattern = '[가-힣]+[제]?[[0-9]+[\\.]]*[0-9]+[동]'
+rows2 = str_match(dfDongMyeongNotHanGuel$DongMyeong, pattern) == dfDongMyeongNotHanGuel$DongMyeong
+rows2 = !is.na(rows2)
+
+dfNDong = dfDongMyeongNotHanGuel[rows2, ]
+
+head(dfNDong)
+# dfNDong
+summary(dfNDong)
+```
+
+```{r}
+# rows = str_match(dfDongMyeongNotHanGuel$DongMyeong, pattern) != dfDongMyeongNotHanGuel$DongMyeong
+rowsX = !(rows1 | rows2)
+dfDongTmp = dfDongMyeongNotHanGuel[rowsX, ]
+
+head(dfDongTmp)
+dfDongTmp
+summary(dfDongTmp)
+```
+
+### asdf
+
+```{r}
+
+```
+
+### asdf
+
+```{r}
+
+```
+
+### asdf
+
+```{r}
+
+```
+
+### asdf
+
+```{r}
+
+```
+
+### asdf
+
+```{r}
+
+```
+
+### asdf
+
+```{r}
+
 ```
 
 ## 동이름으로 사용될 수 있는 후보동이름 찾기
@@ -102,7 +214,8 @@ dfHaeng
 #### 모든 법정동 찾을 수 있는 정규표현식
 
 ```{r}
-dfBeopHaeng
+head(dfBeopHaeng)
+summary(dfBeopHaeng)
 
 #전체 21,409 rows
 # 만든 정규식을 통과했을 때, 21,409개의 rows를 찾을 수 있어야 합니다.
@@ -219,7 +332,32 @@ pattern = '[가]$|[동]$|[리]$|[읍]$|[면]$|[로]$|[군]$|[구]$|[시]$|[\\)]$
 dfBeopHaeng[grepl(pattern, dfBeopHaeng$HaengJeongDongMyeong), ]
 ```
 
-### 후보동 이름을 찾아서
+#### 후보동 이름을 찾아서
+
+앞에서, 정규표현식을 사용해서, 법정동/행정동 이름이 어떻게 구성되어 있는지 알 수 있습니다.
+
+'[가]$|[동]$|[리]$|[읍]$|[면]$|[로]$|[군]$|[구]$|[시]$|[\\)]$|[출장소]$|[출장]$'
+
+알아낸 위의 12가지 규칙을 사용해서, 후보동 이름을 정할 규칙을 하나씩 알아 보겠습니다.
+
+
+```{r}
+dfBeopHaeng
+```
+
+
+##### '가'로 끝나는 경우
+- xx동1가로 끝나는 경우에는, [0-9]+[가]$ 를 지운 후보동을 추가합니다.
+영선동2가
+영선동
+
+- 리, 읍, 면, 군, 구 시 로 끝나는 경우에는 
+
+이제 좀더 복잡한 경우를 다뤄 보겠습니다.
+- '성수1가제1동' 
+
+동이름은
+
 
 ```{r}
 library(stringr)
@@ -232,6 +370,46 @@ unique(tmp)
 # tmp[!is.na(tmp$tmp), ]
 # grep(pattern, dfBeopHaeng$HaengJeongDongMyeong)
 ```
+
+가장 복잡해 보이는 성수1가제1동
+
+- 그중에 [제][0-9]+[동]으로 끝난 다면, [제]를 제외한 후보동이름을 만들어 줍니다.
+*원본
+성수1가제1동
+*후보동
+성수1가1동
+
+- [0-9]+[가]를 지운 부분을 후보동에 포함 시켜 줍니다.
+*원본
+성수1가제1동
+성수1가1동
+*후보동
+성수제1동
+성수1동
+
+- [0-9]+[동]을 지운 부분을 후보동에 포함 시켜 줍니다, 이때, [제]$로 끝나는 후보동이름은 [제]삭제 합니다. 삭제한 후에 중복된 이름도 삭제합니다.
+*원본
+성수1가제1동
+성수1가1동
+성수제1동
+성수1동
+*후보동
+성수1가{제} <- 삭제 될 '제'
+성수1가
+성수{제} <- 삭제 될 '제'
+성수
+
+- 마지막에 동으로 끝나지 않는 '동'붙여 줍니다.
+*원본
+성수1가제1동
+성수1가1동
+성수제1동
+성수1동
+성수1가
+성수
+*후보동
+성수1가동
+성수동
 
 ```{r}
 library(stringr)
